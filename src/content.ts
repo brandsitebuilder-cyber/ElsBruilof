@@ -8,8 +8,8 @@ export const content = {
       invitation: "Invitation",
       schedule: "Schedule",
       dressCode: "Dress Code & RSVP",
-      registry: "Registry",
-      accommodation: "Accommodation",
+      accommodation: "Accommodation & Travel",
+      thingsToDo: "Things To Do",
       faq: "FAQ",
       gallery: "Gallery"
     },
@@ -20,11 +20,12 @@ export const content = {
       rsvpBtn: "RSVP"
     },
     story: {
+      subtitle: "The Beginning",
       title: "Our Story",
-      p1: "Looking back, their meeting feels like the most beautiful kind of luck. With an eight-year gap between them, their paths might never have crossed in the ordinary course of things, yet when the moment came in 2024, it was an inevitable leap of faith.",
-      p2: "From the moment their paths crossed, Lourens knew he would sweep her off her feet, a promise solidified by their first date at Laborie, where he met her parents that very same afternoon.",
-      p3: "While the distance between Pretoria and Cape Town tested their patience, it only deepened their resolve. They spent countless hours and miles travelling to bridge the gap, proving that distance is nothing when hearts have already found their home.",
-      p4: "Today, she is his energetic light, and he is her steady compass. We are honoured to celebrate the beautiful life they have built together."
+      p1: "Looking back, their meeting feels like the most beautiful kind of luck, knowing it is all carefully planned by our Heavenly Father. With eight years between them, their paths might never have crossed in the ordinary rhythm of life. Yet when the moment arrived in 2024, it was a leap of faith that seemed written in the stars.",
+      p2: "From that very first encounter, Lourens knew he would sweep her off her feet, a promise sealed over a glass of wine, during their first date at Laborie, where he met Ane’s parents that very same afternoon.",
+      p3: "Though the miles between Pretoria and Cape Town tested their patience, they only strengthened their resolve. Countless hours and journeys were spent bridging the distance, proving that love knows no boundaries when hearts have already found their home.",
+      p4: "Today, they are a perfect balance, she is his radiant light, and he is her steadfast compass. We are privileged to celebrate the beautiful life they have woven together."
     },
     invitation: {
       title: "The Invitation",
@@ -38,27 +39,32 @@ export const content = {
       closing: "We look forward to beginning our forever, surrounded by the warmth and love of our family and friends."
     },
     schedule: {
+      subtitle: "The Timeline",
       title: "Schedule",
       items: [
         { time: "15:00", event: "Guest Arrival & Welcome Drinks" },
         { time: "15:30", event: "Wedding Ceremony" },
         { time: "16:30", event: "Canapés & Photographs" },
-        { time: "18:00", event: "Reception & Dinner" }
+        { time: "18:30", event: "Reception & Dinner" }
       ]
     },
     details: {
       title: "Details & RSVP",
+      attireSubtitle: "Dress Code",
       attireTitle: "Attire",
       attireIntro: "We kindly request strict formal elegance attire.",
       attireList: [
-        "For gentlemen: a dark suit or tuxedo.",
-        "For ladies: In Black, neutral and muted tones, elegant, floor-length gowns or refined cocktail dresses.",
+        "For gentlemen: a Black or dark suit.",
+        "For ladies: In black, neutral and muted tones, formal, floor-length gowns or refined cocktail dresses.",
         "We invite you to embrace a timeless, sophisticated look that mirrors the spirit of the occasion."
       ],
+      rsvpSubtitle: "Join Us",
       rsvpTitle: "RSVP",
       rsvpText: "We kindly ask that you confirm your attendance before the 31st of August 2026. You may RSVP via the form below.",
+      dietarySubtitle: "Menu",
       dietaryTitle: "Dietary Requirements",
       dietaryText: "Please let us know if you have any allergies or specific dietary needs so we can ensure you are well cared for on the day.",
+      thankYou: "Thank You",
       form: {
         name: "Full Name(s)",
         attending: "Number Attending",
@@ -67,18 +73,15 @@ export const content = {
         submit: "Submit RSVP"
       }
     },
-    registry: {
-      title: "Registry",
-      text: "Your presence at our wedding is the greatest gift of all. However, should you wish to honour us with a gift, a contribution towards our future together would be sincerely appreciated."
-    },
     accommodation: {
+      subtitle: "Stay & Travel",
       title: "Accommodation & Travel",
       intro: "We look forward to welcoming you to the beautiful Winelands. We have gathered the following information to ensure your travel and stay are as seamless and enjoyable as possible.",
-      onsiteTitle: "On-Site Accommodation",
+      onsiteTitle: "Accommodation Tips",
       onsiteList: [
-        "A limited number of rooms available on-site at the estate.",
-        "Priority reserved for parents, grandparents, and siblings.",
-        "Bookings: Contact Ané directly on 060 997 1882."
+        "Whether you are looking to stay close to the venue, or if you are here for a weekend in the winelands - please see \"Accommodation: Price & Proximity\" below.",
+        "Consider \"Lekkeslaap\" or \"AirBnB\" for more cost effective accommodation",
+        "If you consider accommodation further away from the venue, please see \"Recommended Shuttles\" below."
       ],
       tableTitle: "Accommodation: Price & Proximity",
       tableHeaders: ["Accommodation", "Dist.", "Est. p/n", "Website"],
@@ -117,8 +120,8 @@ export const content = {
       transportTitle: "Transport Tips",
       transportList: [
         "E-Hailing: Uber and Bolt are active in Durbanville, ideal for point-to-point trips.",
-        "Book Early: Large group shuttles returning late at night should be booked well in advance.",
-        "Designated Driver: Parking is on-site, but we strongly encourage a shuttle so you can fully enjoy the bar."
+        "Shuttles: Ensure you book early. When booking, as for late night shuttle services.",
+        "Parking on-site: Parking is available at the venue, we strongly encourage using a transport service, alternately a designated driver, so you can fully enjoy te bar."
       ],
       shuttleTitle: "Recommended Shuttles",
       shuttleData: [
@@ -132,7 +135,8 @@ export const content = {
       ]
     },
     faq: {
-      title: "FAQ & Things to Do",
+      subtitle: "Details",
+      title: "FAQ",
       questions: [
         {
           q: "Are children invited?",
@@ -150,10 +154,13 @@ export const content = {
           q: "When should I RSVP by?",
           a: "Please kindly submit your RSVP by 31 August 2026. We look forward to celebrating with you."
         }
-      ],
-      thingsTitle: "Things to Do in the Winelands",
-      thingsIntro: "The Cape Winelands offer endless beauty. Here are our suggestions for the weekend:",
-      thingsList: [
+      ]
+    },
+    thingsToDo: {
+      subtitle: "Explore",
+      title: "Things to Do in the Winelands",
+      intro: "The Cape Winelands offer endless beauty. Here are our suggestions for the weekend:",
+      list: [
         { name: "Stellenbosch Wine Tractor", desc: "A Hop-on Hop-off wine tasting tour of Stellenbosch's finest wine farms in a unique and fun way to explore the Golden Triangle of South Africa's most famous wine region." },
         { name: "Franschhoek Wine Tram", desc: "The iconic way to explore the valley. Book well in advance for November." },
         { name: "Babylonstoren Gardens", desc: "A 3.5-hectare garden, a masterpiece of design and botany." },
@@ -162,6 +169,10 @@ export const content = {
         { name: "D'Aria & Nitida", desc: "A Durbanville area favourites for a morning-after breakfast or coffee." },
         { name: "Diemersdal Wine Estate", desc: "Where six generations of tradition and innovation intertwine to create a symphony of unique and remarkable winemaking." }
       ]
+    },
+    gallery: {
+      subtitle: "Moments",
+      title: "Gallery"
     },
     footer: {
       text: "Ané & Lourens · 21 November 2026"
@@ -174,8 +185,8 @@ export const content = {
       invitation: "Uitnodiging",
       schedule: "Skedule",
       dressCode: "Kleredrag & RSVP",
-      registry: "Geskenkregister",
-      accommodation: "Akkommodasie",
+      accommodation: "Akkommodasie & Reis",
+      thingsToDo: "Aktiwiteite",
       faq: "Gereelde Vrae",
       gallery: "Galery"
     },
@@ -186,11 +197,12 @@ export const content = {
       rsvpBtn: "RSVP"
     },
     story: {
+      subtitle: "Die Begin",
       title: "Ons Storie",
-      p1: "Wanneer mens terugkyk, voel hul ontmoeting soos die mooiste tipe geluk. Met ‘n agtjarige ouderdomsgaping tussen hulle, het hul paaie dalk nooit onder normale omstandighede gekruis nie, maar toe die oomblik in 2024 aanbreek, was dit ‘n onvermydelike geloofsprong.",
-      p2: "Van die oomblik wat hul paaie gekruis het, het Lourens geweet hy sou haar van haar voete af wegslaan, ‘n belofte wat bevestig is tydens hul eerste afspraak by Laborie, waar hy later dieselfde middag haar ouers ontmoet het.",
-      p3: "Terwyl die afstand tussen Pretoria en Kaapstad hul geduld getoets het, het dit net hul vasbeslotenheid versterk. Hulle het talle ure en myle afgeleg om die gaping te oorbrug, wat bewys dat afstand niks beteken wanneer harte reeds hul tuiste gevind het nie.",
-      p4: "Vandag is sy die energieke lig vir hom, en hy is haar standvastige kompas. Ons is geëer om die pragtige lewe wat hulle saam gebou het, te vier."
+      p1: "Wanneer ons terugkyk, voel hul ontmoeting soos die kosbaarste geskenk van die noodlot, ’n toevallige geluk wat ons weet deur ons Hemelse Vader se volmaakte tyding gelei is. Met ’n agt-jaar gaping tussen hulle, sou hul paaie waarskynlik nooit in die gewone gang van die lewe gekruis het nie. Tog, toe die oomblik in 2024 aanbreek, was dit ’n sprong van geloof wat eenvoudig onvermydelik was.",
+      p2: "Van daardie eerste ontmoeting af het Lourens geweet hy sou haar hart verower, ’n belofte wat bevestig is tydens hul eerste afspraak oor ‘n glas wyn by Laborie, waar hy Ane’seouers daardie selfde middag ontmoet het.",
+      p3: "Al het die afstand tussen Pretoria en Kaapstad hul geduld beproef, het dit slegs hul vasberadenheid verdiep. Ure en kilometers het hulle afgelê om die gaping te oorbrug, en bewys dat afstand betekenisloos is wanneer twee harte reeds hul tuiste gevind het.",
+      p4: "Vandag is hulle die perfekte balans, sy die sprankelende ligvir hom, en hy haar standvastige kompas. Ons is bevoorreg om die pragtige lewe wat hulle saam geskep het, te vier."
     },
     invitation: {
       title: "Die Uitnodiging",
@@ -204,47 +216,48 @@ export const content = {
       closing: "Ons sien uit daarna om ons ewigheid te begin, omring deur die warmte en liefde van ons familie en vriende."
     },
     schedule: {
+      subtitle: "Die Tydlyn",
       title: "Skedule",
       items: [
         { time: "15:00", event: "Gaste Aankoms & Verwelkomingsdrankies" },
         { time: "15:30", event: "Huwelikseremonie" },
-        { time: "16:30", event: "Verversings & Foto's" },
-        { time: "18:00", event: "Onthaal & Aandete" }
+        { time: "16:30", event: "Skemerkelkies & Foto's" },
+        { time: "18:30", event: "Onthaal & Aandete" }
       ]
     },
     details: {
       title: "Besonderhede & RSVP",
-      attireTitle: "Kleredrag",
+      attireSubtitle: "Kleredrag",
+      attireTitle: "Streng formeel",
       attireIntro: "Ons versoek u vriendelik om in formele elegansie aan te trek.",
       attireList: [
-        "Vir mans: ‘n donker pak of ‘n tuxedo.",
-        "Vir dames: In swart, neutral of gedempte skakerings, elegenate aandrokke of verfynde skemerkelkie-drag.",
+        "Vir mans: 'n swart of donker pak",
+        "Vir dames: In swart, neutrale of gedempte skakerings, formele aandrokke of verfynde skemerkelkie-drag.",
         "Ons nooi u uit om ‘n tydlose, gesofistikeerde styl te kies wat die gees van die geleentheid weerspieël."
       ],
+      rsvpSubtitle: "Sluit by ons aan",
       rsvpTitle: "RSVP",
       rsvpText: "Ons vra vriendelik dat julle asseblief ons vreugde kom deel deur julle bywoning voor 31 Augustus 2026 te bevestig. RSVP gerus via die vorm hieronder.",
+      dietarySubtitle: "Spyskaart",
       dietaryTitle: "Dieetvereistes",
-      dietaryText: "Laat weet ons asseblief indien u enige allergêe of spesifieke diëtvereistes het, sodat ons kan verseker dat daar vir u gesorg word op die dag.",
+      dietaryText: "Laat weet ons asseblief indien u enige allergieë of spesifieke diëtvereistes het, sodat ons kan verseker dat daar vir u gesorg word op die dag.",
+      thankYou: "Dankie",
       form: {
         name: "Volle Naam/Name",
-        attending: "Aantal Gaste",
         dietary: "Dieetvereistes",
         message: "Boodskap vir die Paartjie",
         submit: "Dien RSVP in"
       }
     },
-    registry: {
-      title: "Geskenkregister",
-      text: "U teenwoordigheid by ons troue is die grootste geskenk van almal. Sou u ons egter met 'n geskenk wil vereer, sal 'n bydrae tot ons toekoms saam opreg waardeer word."
-    },
     accommodation: {
+      subtitle: "Verblyf & Reis",
       title: "Akkommodasie & Reis",
       intro: "Ons sien uit daarna om u in die pragtige Wynlande te verwelkom. Ons het die volgende inligting saamgestel om te verseker dat u reis en verblyf so gerieflik en aangenaam as moontlik is.",
-      onsiteTitle: "Op die perseel",
+      onsiteTitle: "Akkommodasie Wenke",
       onsiteList: [
-        "‘n Beperkte aantal kamers is beskikbaar op die landgoed.",
-        "Voorkeur word gereserveer vir ouers, grootouers en sibbe.",
-        "Besprekings: Kontak Ané direk by 060 997 1882."
+        "Of jy nou naby die venue wil bly, of hier is vir 'n naweek in die wynlande - sien asseblief \"Akkommodasie: Prys & Nabyheid\" hieronder.",
+        "Oorweeg \"Lekkeslaap\" of \"AirBnB\" vir meer koste-effektiewe akkommodasie.",
+        "As jy akkommodasie verder weg van die venue oorweeg, sien asseblief \"Aanbevole Pendeldienste\" hieronder."
       ],
       tableTitle: "Akkommodasie: Prys & Afstand",
       tableHeaders: ["Akkommodasie", "Afst.", "Geskatte p/n", "Webwerf"],
@@ -283,8 +296,8 @@ export const content = {
       transportTitle: "Vervoerwenke",
       transportList: [
         "E-hailing: Uber en Bolt is aktief in Durbanville en is ideaal vir ritte van punt tot punt.",
-        "Bespreek vroegtydig: Pendeldienste vir groot groepe wat laat in die aand huis toe gaan, moet ruim voor die tyd bespreek word.",
-        "Aangewese bestuurder: Parkering is op die perseel beskikbaar, maar ons beveel sterk aan dat julle ‘n pendeldiens reël sodat julle die kroeg ten volle kan geniet."
+        "Pendeldienste: Maak seker jy bespreek vroeg. Wanneer jy bespreek, vra asseblief vir laatnag-pendeldienste.",
+        "Parkering op die terrein: Parkering is beskikbaar by die venue. Ons moedig sterk aan dat jy 'n vervoerdiens gebruik, of andersins 'n aangewese bestuurder, sodat jy die kroeg ten volle kan geniet."
       ],
       shuttleTitle: "Aanbevole Pendeldienste",
       shuttleData: [
@@ -298,7 +311,8 @@ export const content = {
       ]
     },
     faq: {
-      title: "Gereelde Vrae & Dinge om te Doen",
+      subtitle: "Besonderhede",
+      title: "Gereelde Vrae",
       questions: [
         {
           q: "Is kinders welkom?",
@@ -316,18 +330,25 @@ export const content = {
           q: "Wanneer moet ek RSVP?",
           a: "Bevestig asseblief u bywoning voor 31 Augustus 2026. Ons sien uit daarna om die dag saam met u te vier."
         }
-      ],
-      thingsTitle: "Dinge om te Doen in die Wynlande",
-      thingsIntro: "Die Kaapse Wynlande bied eindelose skoonheid. Ons het 'n paar van ons gunstelingmaniere uitgesoek vir julle om die naweek deur te bring:",
-      thingsList: [
-        { name: "Stellenbosch Wine Tractor", desc: "’n Hop-on, hop-off wynproe-toer deur Stellenbosch se beste wynplase—’n unieke, lewendige manier om die 'Golden Triangle' van Suid-Afrika se bekendste wynstreek te verken." },
+      ]
+    },
+    thingsToDo: {
+      subtitle: "Verken",
+      title: "Aktiwiteite in die wynlande",
+      intro: "Ontdek die eindelose skoonheid van die Kaapse Wynlande. Vir naweekreisigers: benut jou Vrydag en Sondag ten volle om te verken, te ontspan en die natuurskoon in te neem. Hou Saterdag lig en rustig sodat jy vars en gereed is vir die trouvieringe. Hier is ons voorstelle vir die naweek:",
+      list: [
+        { name: "Stellenbosch Wine Tractor", desc: "’n Hop-on, hop-off wynproe-toer deur Stellenbosch se beste wynplase, 'n unieke, lewendige manier om die 'Golden Triangle' van Suid-Afrika se bekendste wynstreek te verken." },
         { name: "Franschhoek Wine Tram", desc: "’n Ikoniese manier om die vallei te verken. Let wel: Bespreek asseblief ruim voor die tyd vir November." },
         { name: "Babylonstoren Gardens", desc: "’n 3,5-hektaar tuin; ’n meesterstuk van ontwerp en plantkunde." },
         { name: "Stellenbosch Town Walk", desc: "Stap in Dorpstraat vir boetieks, galerye en historiese Kaaps-Hollandse argitektuur." },
-        { name: "Durbanville Wine Safari", desc: "’n Hop-on, hop-off busrit wat by Durbanville Hills begin—perfek vir ’n rustige plaaslike oggend." },
+        { name: "Durbanville Wine Safari", desc: "’n Hop-on, hop-off busrit wat by Durbanville Hills begin, perfek vir ’n rustige plaaslike oggend." },
         { name: "D'Aria & Nitida", desc: "Durbanville-gunstelinge vir ’n heerlike ontbyt of koffie die oggend na die troue." },
         { name: "Diemersdal Wine Estate", desc: "Waar ses geslagte van tradisie en innovasie saamvloei om ’n simfonie van unieke en merkwaardige wynmakery te skep." }
       ]
+    },
+    gallery: {
+      subtitle: "Oomblikke",
+      title: "Galery"
     },
     footer: {
       text: "Ané & Lourens · 21 November 2026"

@@ -1,18 +1,27 @@
 import React from 'react';
 import { useLanguage } from '../LanguageContext';
 import { content } from '../content';
-import { images } from '../assets';
 import { motion } from 'motion/react';
 
 export default function Gallery() {
   const { language } = useLanguage();
-  const t = content[language].nav.gallery;
+  const t = content[language].gallery;
 
   const galleryImages = [
-    images.gallery1,
-    images.gallery2,
-    images.gallery3,
-    images.gallery4,
+    "https://drive.google.com/thumbnail?id=1sz67Qtxr0pcStWZ8YALxl4_Y3DjNjYwH&sz=w1000",
+    "https://drive.google.com/thumbnail?id=1sZPD11696Z7w3johpbZ1-_9N6iM-TcFl&sz=w1000",
+    "https://drive.google.com/thumbnail?id=1n3mpQNLxoudHwuPdda-sipkJyOJueP8b&sz=w1000",
+    "https://drive.google.com/thumbnail?id=1ZJ5xP93qyMdntUbPlQQZlITTFZipifLT&sz=w1000",
+    "https://drive.google.com/thumbnail?id=1Kc27A5dpUxm0g0ejaJgOu2x5uyzIPEKY&sz=w1000",
+    "https://drive.google.com/thumbnail?id=15nwNbZlvVfg8KPlAh2_rKRRffugFw6FF&sz=w1000",
+    "https://drive.google.com/thumbnail?id=1-ubc2_Ua5yLUDJMKw4vIsVJxx4W51l7v&sz=w1000",
+    "https://drive.google.com/thumbnail?id=1sXK_B9BkMi8q6c8jSp5FrdC_XhuYnvo3&sz=w1000",
+    "https://drive.google.com/thumbnail?id=1hn94cvDdF84uBaOw3Lt2Hzgab6fUhcYc&sz=w1000",
+    "https://drive.google.com/thumbnail?id=1XF25Ncsuv6f_5avdWcin7sD3abH7FDv0&sz=w1000",
+    "https://drive.google.com/thumbnail?id=1U84HDFdvwBkAIxO5gVVi-mBSzA8RbzyA&sz=w1000",
+    "https://drive.google.com/thumbnail?id=1Tn1pEPiXAT-PYpz0t7yfRskZLc7B36KV&sz=w1000",
+    "https://drive.google.com/thumbnail?id=1C7Ol3ZUKJTL0kfS0uwXN02GbEHTiBxg8&sz=w1000",
+    "https://drive.google.com/thumbnail?id=144qGJiY4hW52MlkRUF44ztuF0F5w-Fn1&sz=w1000"
   ];
 
   return (
@@ -26,10 +35,10 @@ export default function Gallery() {
           className="mb-24"
         >
           <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
-            Moments
+            {t.subtitle}
           </h3>
           <h2 className="font-serif text-4xl md:text-6xl text-brand-text uppercase tracking-[0.15em] mb-8">
-            {t}
+            {t.title}
           </h2>
           <div className="w-px h-16 bg-brand-accent/50 mx-auto"></div>
         </motion.div>
@@ -39,22 +48,19 @@ export default function Gallery() {
             // Create an asymmetrical layout
             let colSpan = "md:col-span-6";
             let marginTop = "";
-            let aspect = "aspect-[3/4]";
             
-            if (i === 0) {
+            const patternIndex = i % 4;
+            
+            if (patternIndex === 0) {
               colSpan = "md:col-span-5 md:col-start-2";
-              aspect = "aspect-[4/5]";
-            } else if (i === 1) {
+            } else if (patternIndex === 1) {
               colSpan = "md:col-span-4 md:col-start-8";
               marginTop = "md:mt-32";
-              aspect = "aspect-[3/4]";
-            } else if (i === 2) {
+            } else if (patternIndex === 2) {
               colSpan = "md:col-span-6 md:col-start-1";
-              aspect = "aspect-[16/9]";
-            } else if (i === 3) {
+            } else if (patternIndex === 3) {
               colSpan = "md:col-span-4 md:col-start-8";
               marginTop = "md:-mt-32";
-              aspect = "aspect-[4/5]";
             }
 
             return (
@@ -63,13 +69,13 @@ export default function Gallery() {
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1, delay: i * 0.2 }}
-                className={`${colSpan} ${marginTop} ${aspect} overflow-hidden`}
+                transition={{ duration: 1, delay: (i % 4) * 0.2 }}
+                className={`${colSpan} ${marginTop} overflow-hidden`}
               >
                 <img 
                   src={src} 
                   alt={`Gallery ${i + 1}`} 
-                  className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-1000 ease-out"
+                  className="w-full h-auto hover:scale-105 transition-transform duration-1000 ease-out"
                   referrerPolicy="no-referrer"
                 />
               </motion.div>

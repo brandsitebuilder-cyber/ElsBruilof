@@ -28,7 +28,7 @@ export default function DetailsRSVP() {
           >
             <div>
               <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
-                Dress Code
+                {t.attireSubtitle}
               </h3>
               <h2 className="font-serif text-3xl md:text-4xl text-brand-text uppercase tracking-[0.15em] mb-8">
                 {t.attireTitle}
@@ -48,7 +48,7 @@ export default function DetailsRSVP() {
 
             <div>
               <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
-                Menu
+                {t.dietarySubtitle}
               </h3>
               <h2 className="font-serif text-3xl md:text-4xl text-brand-text uppercase tracking-[0.15em] mb-8">
                 {t.dietaryTitle}
@@ -68,7 +68,7 @@ export default function DetailsRSVP() {
           >
             <div className="bg-brand-fill p-10 md:p-16">
               <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
-                Join Us
+                {t.rsvpSubtitle}
               </h3>
               <h2 className="font-serif text-3xl md:text-4xl text-brand-text uppercase tracking-[0.15em] mb-8">
                 {t.rsvpTitle}
@@ -79,7 +79,7 @@ export default function DetailsRSVP() {
 
               {isSubmitted ? (
                 <div className="text-center py-12 border border-brand-accent/20">
-                  <h3 className="font-[Pinyon_Script] text-4xl text-brand-accent mb-4">Thank You</h3>
+                  <h3 className="font-[Pinyon_Script] text-4xl text-brand-accent mb-4">{t.thankYou}</h3>
                   <p className="text-brand-text/70 font-light tracking-wide uppercase text-xs">
                     {language === 'en' ? "Your RSVP has been received." : "U RSVP is ontvang."}
                   </p>
@@ -89,19 +89,6 @@ export default function DetailsRSVP() {
                   <div className="relative">
                     <input type="text" id="name" required placeholder=" " className="peer w-full border-b border-brand-text/20 bg-transparent py-3 focus:outline-none focus:border-brand-accent transition-colors font-light text-brand-text placeholder-transparent" />
                     <label htmlFor="name" className="absolute left-0 -top-3.5 text-xs uppercase tracking-[0.2em] text-brand-text/50 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-brand-accent">{t.form.name}</label>
-                  </div>
-                  
-                  <div className="relative">
-                    <select id="attending" required defaultValue="" className="peer w-full border-b border-brand-text/20 bg-transparent py-3 focus:outline-none focus:border-brand-accent transition-colors font-light text-brand-text appearance-none">
-                      <option value="" disabled hidden></option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="0">Regrets / Kan nie bywoon nie</option>
-                    </select>
-                    <label htmlFor="attending" className="absolute left-0 -top-3.5 text-xs uppercase tracking-[0.2em] text-brand-text/50 transition-all peer-focus:text-brand-accent">{t.form.attending}</label>
-                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-brand-accent">
-                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                    </div>
                   </div>
                   
                   <div className="relative">

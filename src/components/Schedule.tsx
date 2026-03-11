@@ -18,7 +18,7 @@ export default function Schedule() {
           className="text-center"
         >
           <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
-            The Timeline
+            {t.subtitle}
           </h3>
           <h2 className="font-serif text-4xl md:text-6xl text-brand-text uppercase tracking-[0.15em] mb-8">
             {t.title}

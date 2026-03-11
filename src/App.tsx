@@ -11,8 +11,8 @@ import OurStory from './components/OurStory';
 import Invitation from './components/Invitation';
 import Schedule from './components/Schedule';
 import DetailsRSVP from './components/DetailsRSVP';
-import Registry from './components/Registry';
 import Accommodation from './components/Accommodation';
+import ThingsToDo from './components/ThingsToDo';
 import FAQ from './components/FAQ';
 import Gallery from './components/Gallery';
 import Footer from './components/Footer';
@@ -30,8 +30,8 @@ export default function App() {
           <Invitation />
           <Schedule />
           <DetailsRSVP />
-          <Registry />
           <Accommodation />
+          <ThingsToDo />
           <FAQ />
           <Gallery />
         </main>

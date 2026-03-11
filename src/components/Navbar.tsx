@@ -23,8 +23,8 @@ export default function Navbar() {
     { name: t.invitation, href: '#invitation' },
     { name: t.schedule, href: '#schedule' },
     { name: t.dressCode, href: '#details' },
-    { name: t.registry, href: '#registry' },
     { name: t.accommodation, href: '#accommodation' },
+    { name: t.thingsToDo, href: '#things-to-do' },
     { name: t.faq, href: '#faq' },
   ];
 
