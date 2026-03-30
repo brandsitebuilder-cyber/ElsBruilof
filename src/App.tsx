@@ -4,39 +4,30 @@
  */
 
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { LanguageProvider } from './LanguageContext';
 import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import OurStory from './components/OurStory';
-import Invitation from './components/Invitation';
-import Schedule from './components/Schedule';
-import DetailsRSVP from './components/DetailsRSVP';
-import Accommodation from './components/Accommodation';
-import ThingsToDo from './components/ThingsToDo';
-import FAQ from './components/FAQ';
-import Gallery from './components/Gallery';
 import Footer from './components/Footer';
 import MusicPlayer from './components/MusicPlayer';
+import Home from './pages/Home';
+import Details from './pages/Details';
 
 export default function App() {
   return (
     <LanguageProvider>
-      <div className="min-h-screen bg-brand-bg text-brand-text font-sans selection:bg-brand-accent/30 overflow-x-hidden">
-        <Navbar />
-        <MusicPlayer />
-        <main>
-          <Hero />
-          <OurStory />
-          <Invitation />
-          <Schedule />
-          <DetailsRSVP />
-          <Accommodation />
-          <ThingsToDo />
-          <FAQ />
-          <Gallery />
-        </main>
-        <Footer />
-      </div>
+      <Router>
+        <div className="min-h-screen bg-brand-bg text-brand-text font-sans selection:bg-brand-accent/30 overflow-x-hidden">
+          <Navbar />
+          <MusicPlayer />
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/details" element={<Details />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
     </LanguageProvider>
   );
 }
