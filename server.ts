@@ -1,10 +1,15 @@
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import { google } from "googleapis";
 import path from "path";
-import dotenv from "dotenv";
 
-dotenv.config();
+if (process.env.NODE_ENV !== "production") {
+  try {
+    const dotenv = await import("dotenv");
+    dotenv.config();
+  } catch (e) {
+    console.warn("dotenv not found, skipping config");
+  }
+}
 
 const app = express();
 const PORT = 3000;
@@ -85,6 +90,7 @@ app.post("/api/rsvp", async (req, res) => {
 // Vite middleware setup
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
