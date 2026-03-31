@@ -32,7 +32,7 @@ app.get("/api/health", (req, res) => {
 const auth = new google.auth.GoogleAuth({
   credentials: {
     client_email: process.env.GOOGLE_CLIENT_EMAIL,
-    private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+    private_key: process.env.GOOGLE_PRIVATE_KEY ? process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n") : undefined,
   },
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
@@ -46,6 +46,9 @@ app.post("/api/rsvp", async (req, res) => {
   if (!name || !cellphone) {
     return res.status(400).json({ error: "Name and Cellphone are required." });
   }
+
+  // Strip spaces from user input for comparison
+  const cleanCellphone = cellphone.toString().replace(/\s/g, "");
 
   try {
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
@@ -61,10 +64,14 @@ app.post("/api/rsvp", async (req, res) => {
     });
 
     const rows = response.data.values || [];
-    const isDuplicate = rows.some((row) => row[0] === cellphone);
+    // Compare cleaned versions to ensure a perfect match
+    const isDuplicate = rows.some((row) => {
+      const sheetValue = row[0] ? row[0].toString().replace(/\s/g, "") : "";
+      return sheetValue === cleanCellphone;
+    });
 
     if (isDuplicate) {
-      return res.status(400).json({ error: "It looks like you've already RSVP'd with this number!" });
+      return res.status(400).json({ error: "Oops! You have already RSVP'd with this number." });
     }
 
     // 2. Append data
