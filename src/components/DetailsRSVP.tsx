@@ -20,9 +20,7 @@ export default function DetailsRSVP() {
     setError(null);
 
     try {
-      const url = `${window.location.origin}/api/rsvp`;
-      console.log(`Fetching RSVP from: ${url}`);
-      const response = await fetch(url, {
+      const response = await fetch('/api/rsvp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
