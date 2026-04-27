@@ -68,3 +68,4 @@ fetch('http://localhost:3000/api/rsvp', { ... })
 * `GOOGLE_CLIENT_EMAIL`
 * `GOOGLE_PRIVATE_KEY` (Can be pasted exactly as it appears in the JSON file)
 * `GOOGLE_SHEET_ID`
+Trigger redeploy Tue Apr 28 12:54:09 AM SAST 2026
