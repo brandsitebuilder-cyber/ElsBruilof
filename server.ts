@@ -71,7 +71,10 @@ app.get("/api/test-sheets", async (req, res) => {
 
 // Helper to get Google Sheets client
 function getSheetsClient() {
-  const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
+  let clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
+  if (clientEmail === "elsbruilof@gserviceaccount.com") {
+    clientEmail = "elsbruilof-gserviceaccount-com@gen-lang-client-0770019064.iam.gserviceaccount.com";
+  }
   const privateKey = process.env.GOOGLE_PRIVATE_KEY;
   const sheetId = process.env.GOOGLE_SHEET_ID || "1bxb4-dZ-l4eh95BOgopABS540pSOd2pksmGz2kiz4o0";
 
