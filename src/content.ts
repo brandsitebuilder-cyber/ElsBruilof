@@ -7,6 +7,7 @@ export const content = {
       story: "Ons Storie",
       invitation: "Uitnodiging",
       dressCode: "Kleredrag & RSVP",
+      registry: "Geskenkregister",
       accommodation: "Akkommodasie & Reis",
       faq: "Gereelde Vrae",
       gallery: "Galery"
@@ -67,6 +68,16 @@ export const content = {
         networkError: "Kon nie aan die bediener koppel nie. Gaan asseblief u verbinding na.",
         genericError: "Iets het foutgegaan. Probeer asseblief later weer."
       }
+    },
+    registry: {
+      subtitle: "Geskenkregister",
+      title: "Trou Register",
+      description: "Julle teenwoordigheid op ons troudag is vir ons die grootste geskenk. As julle ons wel met 'n geskenk wil seën, het ons 'n geskenkregister opgesit.",
+      passwordLabel: "Wachtwoord vir register",
+      copyPassword: "Kopieer",
+      copied: "Gekopieer!",
+      openRegistry: "Besoek Geskenkregister",
+      note: "Voer die wachtwoord 'Kombuistee' in op MyRegistry.com indien daartoe gevra."
     },
     accommodation: {
       subtitle: "Verblyf & Reis",
@@ -148,6 +159,7 @@ export const content = {
       story: "Ons Storie",
       invitation: "Uitnodiging",
       dressCode: "Kleredrag & RSVP",
+      registry: "Geskenkregister",
       accommodation: "Akkommodasie & Reis",
       faq: "Gereelde Vrae",
       gallery: "Galery"
@@ -208,6 +220,16 @@ export const content = {
         networkError: "Kon nie aan die bediener koppel nie. Gaan asseblief u verbinding na.",
         genericError: "Iets het foutgegaan. Probeer asseblief later weer."
       }
+    },
+    registry: {
+      subtitle: "Geskenkregister",
+      title: "Trou Register",
+      description: "Julle teenwoordigheid op ons troudag is vir ons die grootste geskenk. As julle ons wel met 'n geskenk wil seën, het ons 'n geskenkregister opgesit.",
+      passwordLabel: "Wachtwoord vir register",
+      copyPassword: "Kopieer",
+      copied: "Gekopieer!",
+      openRegistry: "Besoek Geskenkregister",
+      note: "Voer die wachtwoord 'Kombuistee' in op MyRegistry.com indien daartoe gevra."
     },
     accommodation: {
       subtitle: "Verblyf & Reis",

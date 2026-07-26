@@ -25,6 +25,7 @@ export default function Navbar() {
     { name: t.story, to: '/', hash: '#story' },
     { name: t.invitation, to: '/', hash: '#invitation' },
     { name: t.dressCode, to: '/', hash: '#details' },
+    { name: t.registry, to: '/', hash: '#registry' },
     { name: t.accommodation, to: '/', hash: '#accommodation' },
     { name: t.faq, to: '/', hash: '#faq' },
     { name: t.gallery, to: '/', hash: '#gallery' },
