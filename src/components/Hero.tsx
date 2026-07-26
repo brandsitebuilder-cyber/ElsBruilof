@@ -27,7 +27,7 @@ export default function Hero() {
         transition={{ duration: 1, delay: 0.5 }}
         className="relative z-10 text-center text-white px-4 flex flex-col items-center"
       >
-        <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-tight mb-6 drop-shadow-lg">
+        <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl tracking-tight mb-10 drop-shadow-lg">
           {t.names.split('&').map((name, i) => (
             <React.Fragment key={name}>
               {name.trim()}
@@ -35,12 +35,16 @@ export default function Hero() {
             </React.Fragment>
           ))}
         </h1>
-        <p className="text-sm md:text-lg uppercase tracking-[0.3em] mb-4 font-light drop-shadow-md">
-          {t.date}
-        </p>
-        <p className="text-xs md:text-sm uppercase tracking-widest mb-12 font-light drop-shadow-md">
-          {t.venue}
-        </p>
+        {t.date && (
+          <p className="text-sm md:text-lg uppercase tracking-[0.3em] mb-4 font-light drop-shadow-md">
+            {t.date}
+          </p>
+        )}
+        {t.venue && (
+          <p className="text-xs md:text-sm uppercase tracking-widest mb-12 font-light drop-shadow-md">
+            {t.venue}
+          </p>
+        )}
         <a 
           href="#details" 
           className="inline-block border border-brand-accent text-white hover:bg-brand-accent hover:text-brand-bg transition-all duration-300 px-10 py-4 uppercase tracking-widest text-sm"

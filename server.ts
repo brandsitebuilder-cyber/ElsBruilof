@@ -101,10 +101,10 @@ function getSheetsClient() {
 
 // API routes
 app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
-  const { name, cellphone, dietary, message } = req.body;
+  const { name, partnerName, cellphone, email, mainCourse, dietary, message } = req.body;
 
   if (!name || !cellphone) {
-    return res.status(400).json({ error: "Name and Cellphone are required." });
+    return res.status(400).json({ error: "Naam en Selfoonnommer is verpligtend." });
   }
 
   // Strip spaces from user input for comparison
@@ -117,49 +117,43 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
       throw new Error("GOOGLE_SHEET_ID is not configured.");
     }
 
-    // 1. Check for duplicates in Column B
-    const range = "Sheet1!B:B"; // Assuming Sheet1 and Column B is cellphone
+    // 1. Check for duplicates in Column B or Column C to support existing & new sheet layouts
+    const range = "Sheet1!A:C";
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
       range,
     });
 
     const rows = response.data.values || [];
-    // Compare cleaned versions to ensure a perfect match
     const isDuplicate = rows.some((row) => {
-      const sheetValue = row[0] ? row[0].toString().replace(/\s/g, "") : "";
-      return sheetValue === cleanCellphone;
+      const colB = row[1] ? row[1].toString().replace(/\s/g, "") : "";
+      const colC = row[2] ? row[2].toString().replace(/\s/g, "") : "";
+      return colB === cleanCellphone || colC === cleanCellphone;
     });
 
     if (isDuplicate) {
-      return res.status(400).json({ error: "Oops! You have already RSVP'd with this number." });
+      return res.status(400).json({ error: "Dit lyk of jy reeds met hierdie nommer RSVP'd het!" });
     }
 
-    // 2. Append data
+    // 2. Append data: [Name, Partner Name, Cellphone, Email, Main Course, Dietary, Message, Timestamp]
     const timestamp = new Date().toISOString();
-    const values = [[name, cellphone, dietary, message, timestamp]];
+    const values = [[name, partnerName || "", cellphone, email || "", mainCourse || "", dietary || "", message || "", timestamp]];
 
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: "Sheet1!A:E",
+      range: "Sheet1!A:H",
       valueInputOption: "USER_ENTERED",
       requestBody: {
         values,
       },
     });
 
-    res.status(200).json({ message: "Thank you for your RSVP!" });
+    res.status(200).json({ message: "Dankie vir u RSVP!" });
   } catch (error: any) {
     console.error("Google Sheets Error:", error);
-    // Return more details for debugging in production temporarily
     res.status(500).json({ 
-      error: "Something went wrong. Please try again later.",
-      details: process.env.NODE_ENV === "production" ? undefined : error.message,
-      debug: {
-        message: error.message,
-        stack: error.stack,
-        code: error.code
-      }
+      error: "Iets het foutgegaan. Probeer asseblief later weer.",
+      details: process.env.NODE_ENV === "production" ? undefined : error.message
     });
   }
 });
@@ -172,6 +166,12 @@ app.all("/api/*", (req, res) => {
 // Vite middleware setup
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
+    try {
+      const dotenv = await import("dotenv");
+      dotenv.config();
+    } catch {
+      // dotenv is optional if env variables are already set
+    }
     const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },

@@ -5,7 +5,7 @@ import { content } from '../content';
 import { Menu, X } from 'lucide-react';
 
 export default function Navbar() {
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
   const t = content[language].nav;
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,11 +24,10 @@ export default function Navbar() {
     { name: t.landing, to: '/', hash: '#landing' },
     { name: t.story, to: '/', hash: '#story' },
     { name: t.invitation, to: '/', hash: '#invitation' },
-    { name: t.schedule, to: '/', hash: '#schedule' },
     { name: t.dressCode, to: '/', hash: '#details' },
     { name: t.accommodation, to: '/details', hash: '#accommodation' },
-    { name: t.thingsToDo, to: '/details', hash: '#things-to-do' },
     { name: t.faq, to: '/details', hash: '#faq' },
+    { name: t.gallery, to: '/', hash: '#gallery' },
   ];
 
   const handleNavClick = (to: string, hash: string) => {
@@ -46,7 +45,6 @@ export default function Navbar() {
     } else {
       navigate(to);
       if (hash) {
-        // Wait for navigation to complete before scrolling
         setTimeout(() => {
           const element = document.querySelector(hash);
           if (element) {
@@ -74,7 +72,7 @@ export default function Navbar() {
           </div>
           
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-2 lg:space-x-4 xl:space-x-8">
+          <div className="hidden md:flex items-center space-x-3 lg:space-x-6 xl:space-x-8">
             {navLinks.map((link) => (
               <button 
                 key={link.name} 
@@ -84,20 +82,6 @@ export default function Navbar() {
                 {link.name}
               </button>
             ))}
-            <div className="flex items-center space-x-2 lg:space-x-3 text-[10px] lg:text-xs uppercase tracking-[0.1em] xl:tracking-[0.2em] pl-2 lg:pl-4 xl:pl-6">
-              <button 
-                onClick={() => setLanguage('en')} 
-                className={`transition-colors ${language === 'en' ? 'text-brand-text border-b border-brand-accent' : 'text-brand-text/40 hover:text-brand-text'}`}
-              >
-                EN
-              </button>
-              <button 
-                onClick={() => setLanguage('af')} 
-                className={`transition-colors ${language === 'af' ? 'text-brand-text border-b border-brand-accent' : 'text-brand-text/40 hover:text-brand-text'}`}
-              >
-                AF
-              </button>
-            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -121,20 +105,6 @@ export default function Navbar() {
               {link.name}
             </button>
           ))}
-          <div className="flex items-center space-x-6 pt-6 border-t border-brand-text/10">
-            <button 
-              onClick={() => { setLanguage('en'); setIsMobileMenuOpen(false); }} 
-              className={`text-xs uppercase tracking-[0.2em] transition-colors ${language === 'en' ? 'text-brand-text border-b border-brand-accent' : 'text-brand-text/40 hover:text-brand-text'}`}
-            >
-              EN
-            </button>
-            <button 
-              onClick={() => { setLanguage('af'); setIsMobileMenuOpen(false); }} 
-              className={`text-xs uppercase tracking-[0.2em] transition-colors ${language === 'af' ? 'text-brand-text border-b border-brand-accent' : 'text-brand-text/40 hover:text-brand-text'}`}
-            >
-              AF
-            </button>
-          </div>
         </div>
       )}
     </nav>

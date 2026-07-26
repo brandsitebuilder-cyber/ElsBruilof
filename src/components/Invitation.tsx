@@ -45,25 +45,33 @@ export default function Invitation() {
         
         <div className="space-y-6 mb-20">
           <p className="text-sm md:text-base uppercase tracking-[0.3em] font-light text-brand-text">
-            {t.datetime}
+            SATERDAG, 21 NOVEMBER 2026
           </p>
+          <p className="text-sm md:text-base uppercase tracking-[0.3em] font-light text-brand-text">
+            15:30 VIR 16:00
+          </p>
+          <div className="w-12 h-[1px] bg-brand-accent/30 mx-auto my-4"></div>
           <p className="text-sm md:text-base uppercase tracking-[0.3em] font-light text-brand-text/70">
-            {t.venue}
+            LOCH LYNNE WYNLANDGOED, DURBANVILLE
           </p>
-          <p className="text-sm md:text-base uppercase tracking-[0.3em] font-light text-brand-text/70 pt-4">
-            {t.attire}
+          <div className="w-12 h-[1px] bg-brand-accent/30 mx-auto my-4"></div>
+          <p className="text-xs md:text-sm uppercase tracking-[0.2em] font-light text-brand-text/70 pt-2 max-w-lg mx-auto">
+            KLEREDRAG: FORMELE ELEGANSIE ("BLACK TIE").<br />
+            <span className="text-[10px] md:text-xs text-brand-text/50">SIEN KLEREDRAGVEREISTES VIR BESONDERHEDE.</span>
           </p>
         </div>
-        
-        <p className="text-2xl md:text-3xl font-[Pinyon_Script] text-brand-text/80 mb-20">
-          {t.closing}
-        </p>
+
+        {t.closing && (
+          <p className="text-2xl md:text-3xl font-[Pinyon_Script] text-brand-text/80 mb-20">
+            {t.closing}
+          </p>
+        )}
         
         <a 
           href="#details" 
           className="inline-block border border-brand-accent text-brand-text hover:bg-brand-accent hover:text-white transition-all duration-300 px-12 py-4 uppercase tracking-[0.2em] text-xs"
         >
-          {language === 'en' ? 'Details & RSVP' : 'Besonderhede & RSVP'}
+          Besonderhede & RSVP
         </a>
       </motion.div>
     </section>
