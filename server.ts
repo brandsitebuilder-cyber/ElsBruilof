@@ -70,11 +70,7 @@ app.get("/api/test-sheets", async (req, res) => {
 });
 
 // Helper to get Google Sheets client
-let sheetsClient: any = null;
-
 function getSheetsClient() {
-  if (sheetsClient) return sheetsClient;
-
   const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
   const privateKey = process.env.GOOGLE_PRIVATE_KEY;
   const sheetId = process.env.GOOGLE_SHEET_ID || "1bxb4-dZ-l4eh95BOgopABS540pSOd2pksmGz2kiz4o0";
@@ -97,8 +93,7 @@ function getSheetsClient() {
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
 
-  sheetsClient = google.sheets({ version: "v4", auth });
-  return sheetsClient;
+  return google.sheets({ version: "v4", auth });
 }
 
 // API routes
@@ -161,10 +156,18 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
     res.status(200).json({ message: "Dankie vir u RSVP!" });
   } catch (error: any) {
     console.error("Google Sheets Error:", error?.message || error);
-    const errMsg = error?.message || "Iets het foutgegaan. Probeer asseblief later weer.";
+    const details = error?.message || "Unknown error";
+    let userMsg = "Iets het foutgegaan met die stoor van u RSVP. Probeer asseblief later weer.";
+    
+    if (details.includes("missing") || details.includes("credentials")) {
+      userMsg = "Bedienerkonfigurasie vir Google Sheets ontbreek (GOOGLE_CLIENT_EMAIL / GOOGLE_PRIVATE_KEY).";
+    } else if (details.includes("403") || details.includes("permission") || details.includes("Permission denied")) {
+      userMsg = "Geen redigeer-regte op die Google Sheet nie. Maak seker die diensrekening het 'Editor' toegang.";
+    }
+
     res.status(500).json({ 
-      error: errMsg.includes("GOOGLE_") ? "Bedienerkonfigurasie ontbreek. Kontroleer asseblief die Google Sheets instellings." : "Iets het foutgegaan met die stoor van u RSVP. Probeer asseblief later weer.",
-      details: error.message
+      error: userMsg,
+      details: details
     });
   }
 });
