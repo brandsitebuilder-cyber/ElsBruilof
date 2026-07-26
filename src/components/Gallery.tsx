@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../LanguageContext';
 import { content } from '../content';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
+import { X, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 
 export default function Gallery() {
   const { language } = useLanguage();
   const t = content[language].gallery;
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const galleryImages = [
     "https://drive.google.com/thumbnail?id=1sz67Qtxr0pcStWZ8YALxl4_Y3DjNjYwH&sz=w1000",
@@ -24,6 +26,41 @@ export default function Gallery() {
     "https://drive.google.com/thumbnail?id=144qGJiY4hW52MlkRUF44ztuF0F5w-Fn1&sz=w1000"
   ];
 
+  const openLightbox = (index: number) => {
+    setSelectedIndex(index);
+  };
+
+  const closeLightbox = () => {
+    setSelectedIndex(null);
+  };
+
+  const showNext = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex + 1) % galleryImages.length);
+    }
+  };
+
+  const showPrev = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex - 1 + galleryImages.length) % galleryImages.length);
+    }
+  };
+
+  // Keyboard navigation for lightbox
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (selectedIndex === null) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') showNext();
+      if (e.key === 'ArrowLeft') showPrev();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedIndex]);
+
   return (
     <section id="gallery" className="py-32 md:py-48 bg-brand-bg text-center">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,7 +69,7 @@ export default function Gallery() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="mb-24"
+          className="mb-20"
         >
           <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
             {t.subtitle}
@@ -43,46 +80,97 @@ export default function Gallery() {
           <div className="w-px h-16 bg-brand-accent/50 mx-auto"></div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center">
-          {galleryImages.map((src, i) => {
-            // Create an asymmetrical layout
-            let colSpan = "md:col-span-6";
-            let marginTop = "";
-            
-            const patternIndex = i % 4;
-            
-            if (patternIndex === 0) {
-              colSpan = "md:col-span-5 md:col-start-2";
-            } else if (patternIndex === 1) {
-              colSpan = "md:col-span-4 md:col-start-8";
-              marginTop = "md:mt-32";
-            } else if (patternIndex === 2) {
-              colSpan = "md:col-span-6 md:col-start-1";
-            } else if (patternIndex === 3) {
-              colSpan = "md:col-span-4 md:col-start-8";
-              marginTop = "md:-mt-32";
-            }
-
-            return (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1, delay: (i % 4) * 0.2 }}
-                className={`${colSpan} ${marginTop} overflow-hidden`}
-              >
-                <img 
-                  src={src} 
-                  alt={`Gallery ${i + 1}`} 
-                  className="w-full h-auto hover:scale-105 transition-transform duration-1000 ease-out"
-                  referrerPolicy="no-referrer"
-                />
-              </motion.div>
-            );
-          })}
+        {/* Masonry Grid Layout */}
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 text-left">
+          {galleryImages.map((src, i) => (
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: (i % 3) * 0.15 }}
+              onClick={() => openLightbox(i)}
+              className="relative group cursor-pointer overflow-hidden bg-brand-fill/40 border border-brand-text/10 break-inside-avoid"
+            >
+              <img 
+                src={src} 
+                alt={`Verlowingsfoto ${i + 1}`} 
+                className="w-full h-auto block object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                referrerPolicy="no-referrer"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 transform scale-90 group-hover:scale-100 transition-transform duration-300">
+                  <Maximize2 size={18} />
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {selectedIndex !== null && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={closeLightbox}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 select-none"
+          >
+            {/* Close Button */}
+            <button 
+              onClick={closeLightbox}
+              className="absolute top-6 right-6 text-white/80 hover:text-white p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
+              aria-label="Sluit"
+            >
+              <X size={24} />
+            </button>
+
+            {/* Image Counter */}
+            <div className="absolute top-6 left-6 text-white/70 text-xs tracking-widest uppercase font-light">
+              {selectedIndex + 1} / {galleryImages.length}
+            </div>
+
+            {/* Prev Button */}
+            <button 
+              onClick={showPrev}
+              className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
+              aria-label="Vorige"
+            >
+              <ChevronLeft size={28} />
+            </button>
+
+            {/* Main Lightbox Image */}
+            <motion.div 
+              key={selectedIndex}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              onClick={(e) => e.stopPropagation()}
+              className="max-w-5xl max-h-[85vh] relative flex items-center justify-center overflow-hidden"
+            >
+              <img 
+                src={galleryImages[selectedIndex]} 
+                alt={`Verlowingsfoto ${selectedIndex + 1}`} 
+                className="max-w-full max-h-[85vh] object-contain shadow-2xl"
+                referrerPolicy="no-referrer"
+              />
+            </motion.div>
+
+            {/* Next Button */}
+            <button 
+              onClick={showNext}
+              className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
+              aria-label="Volgende"
+            >
+              <ChevronRight size={28} />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
