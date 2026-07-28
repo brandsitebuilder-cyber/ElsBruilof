@@ -16,8 +16,7 @@ export default function DetailsRSVP() {
     cellphone: '',
     email: '',
     mainCourse: '',
-    dietary: '',
-    message: ''
+    dietary: ''
   });
 
   const handleCopyAddress = () => {
@@ -186,8 +185,7 @@ export default function DetailsRSVP() {
                         cellphone: '',
                         email: '',
                         mainCourse: '',
-                        dietary: '',
-                        message: ''
+                        dietary: ''
                       });
                     }}
                     className="mt-8 text-xs uppercase tracking-widest text-brand-accent hover:underline font-light block mx-auto transition-all"
