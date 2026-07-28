@@ -23,10 +23,26 @@ async function sendRsvpEmailNotification(data: {
 }) {
   const recipients = ["ane.havenga@gmail.com", "brandsitebuilder@gmail.com"];
   
-  const smtpUser = process.env.SMTP_USER || process.env.GMAIL_USER;
-  const smtpPass = process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD;
+  // Prefer explicit Gmail credentials over service account env variables
+  let user = process.env.GMAIL_USER;
+  if (!user && process.env.SMTP_USER && !process.env.SMTP_USER.includes("gserviceaccount.com")) {
+    user = process.env.SMTP_USER;
+  }
+  if (!user) {
+    user = process.env.GMAIL_USER || process.env.SMTP_USER;
+  }
+
+  let rawPass = process.env.GMAIL_APP_PASSWORD;
+  if (!rawPass && process.env.SMTP_PASS && !process.env.SMTP_PASS.includes("BEGIN PRIVATE KEY")) {
+    rawPass = process.env.SMTP_PASS;
+  }
+  if (!rawPass) {
+    rawPass = process.env.GMAIL_APP_PASSWORD || process.env.SMTP_PASS;
+  }
+
+  const cleanPass = rawPass ? rawPass.replace(/\s+/g, "") : "";
   const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
-  const smtpPort = parseInt(process.env.SMTP_PORT || "587", 10);
+  const smtpPort = parseInt(process.env.SMTP_PORT || "465", 10);
 
   const emailBodyHtml = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff;">
@@ -47,20 +63,28 @@ async function sendRsvpEmailNotification(data: {
     </div>
   `;
 
-  if (smtpUser && smtpPass) {
+  if (user && cleanPass) {
     try {
-      const transporter = nodemailer.createTransport({
-        host: smtpHost,
-        port: smtpPort,
-        secure: smtpPort === 465,
-        auth: {
-          user: smtpUser,
-          pass: smtpPass,
-        },
-      });
+      const transporter = smtpHost.includes("gmail")
+        ? nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: user,
+              pass: cleanPass,
+            },
+          })
+        : nodemailer.createTransport({
+            host: smtpHost,
+            port: smtpPort,
+            secure: smtpPort === 465,
+            auth: {
+              user: user,
+              pass: cleanPass,
+            },
+          });
 
       await transporter.sendMail({
-        from: `"Lourens & Ané Troue" <${smtpUser}>`,
+        from: `"Lourens & Ané Troue" <${user}>`,
         to: recipients,
         subject: `Nuwe RSVP: ${data.name}`,
         html: emailBodyHtml,
@@ -71,7 +95,7 @@ async function sendRsvpEmailNotification(data: {
       console.error("[RSVP Email Error] Failed to send email via SMTP:", err?.message || err);
     }
   } else {
-    console.log(`[RSVP Email Info] SMTP credentials (SMTP_USER/SMTP_PASS or GMAIL_USER/GMAIL_APP_PASSWORD) not configured in environment.`);
+    console.log(`[RSVP Email Info] SMTP credentials not configured in environment.`);
     console.log(`[RSVP Email Details] Notification intended for ${recipients.join(", ")}:`, data);
   }
 }
