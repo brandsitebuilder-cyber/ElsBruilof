@@ -78,6 +78,17 @@ async function sendRsvpEmailNotification(data: {
   }
 }
 
+// Helper function to get target Google Sheet ID (overrides legacy sheet ID)
+function getSpreadsheetId(): string {
+  const envId = process.env.GOOGLE_SHEET_ID;
+  const legacyId = "1ab6Vxegpp9OluuudsixHLjJ8x0ScoCh1BcYWbfco0l8";
+  const targetId = "1bxb4-dZ-l4eh95BOgopABS540pSOd2pksmGz2kiz4o0";
+  if (!envId || envId === legacyId) {
+    return targetId;
+  }
+  return envId;
+}
+
 // Logger middleware
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
@@ -89,7 +100,7 @@ app.get("/api/health", (req, res) => {
   res.json({ 
     status: "ok", 
     env: {
-      sheetId: process.env.GOOGLE_SHEET_ID || "1bxb4-dZ-l4eh95BOgopABS540pSOd2pksmGz2kiz4o0",
+      sheetId: getSpreadsheetId(),
       hasEmail: !!process.env.GOOGLE_CLIENT_EMAIL,
       serviceAccountEmail: process.env.GOOGLE_CLIENT_EMAIL || "Not configured",
       hasKey: !!process.env.GOOGLE_PRIVATE_KEY
@@ -105,7 +116,7 @@ app.get("/api/debug", (req, res) => {
     node_env: process.env.NODE_ENV,
     port: PORT,
     serviceAccountEmail: process.env.GOOGLE_CLIENT_EMAIL || "Not configured",
-    sheetId: process.env.GOOGLE_SHEET_ID || "1bxb4-dZ-l4eh95BOgopABS540pSOd2pksmGz2kiz4o0"
+    sheetId: getSpreadsheetId()
   });
 });
 
@@ -113,7 +124,7 @@ app.get("/api/debug", (req, res) => {
 app.get("/api/test-sheets", async (req, res) => {
   try {
     const sheets = getSheetsClient();
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID || "1bxb4-dZ-l4eh95BOgopABS540pSOd2pksmGz2kiz4o0";
+    const spreadsheetId = getSpreadsheetId();
     
     const response = await sheets.spreadsheets.get({
       spreadsheetId,
@@ -143,7 +154,7 @@ function getSheetsClient() {
     clientEmail = "elsbruilof-gserviceaccount-com@gen-lang-client-0770019064.iam.gserviceaccount.com";
   }
   const privateKey = process.env.GOOGLE_PRIVATE_KEY;
-  const sheetId = process.env.GOOGLE_SHEET_ID || "1bxb4-dZ-l4eh95BOgopABS540pSOd2pksmGz2kiz4o0";
+  const sheetId = getSpreadsheetId();
 
   if (!clientEmail || !privateKey) {
     const missing = [];
@@ -174,19 +185,20 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
     return res.status(400).json({ error: "Naam en Selfoonnommer is verpligtend." });
   }
 
-  // Strip spaces from user input for comparison
-  const cleanCellphone = cellphone.toString().replace(/\s/g, "");
+  // Normalize cellphone for duplicate checking (remove spaces and non-digits)
+  const cleanCellphone = cellphone.toString().replace(/\D/g, "");
+  const normalizedDigits = cleanCellphone.replace(/^0+/, "");
 
   try {
     const sheets = getSheetsClient();
-    const spreadsheetId = process.env.GOOGLE_SHEET_ID || "1bxb4-dZ-l4eh95BOgopABS540pSOd2pksmGz2kiz4o0";
+    const spreadsheetId = getSpreadsheetId();
 
-    // 1. Check for duplicates in Column B or Column C (A:C targets the first tab regardless of its name)
+    // 1. Check for duplicates in Column A:D
     let rows: any[] = [];
     try {
       const response = await sheets.spreadsheets.values.get({
         spreadsheetId,
-        range: "A:C",
+        range: "A:D",
       });
       rows = response.data.values || [];
     } catch (getErr: any) {
@@ -194,24 +206,25 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
     }
 
     const isDuplicate = rows.some((row) => {
-      const colB = row[1] ? row[1].toString().replace(/\s/g, "") : "";
-      const colC = row[2] ? row[2].toString().replace(/\s/g, "") : "";
-      return colB === cleanCellphone || colC === cleanCellphone;
+      if (!row || !row[2]) return false;
+      const cellVal = row[2].toString().replace(/\D/g, "").replace(/^0+/, "");
+      return cellVal.length > 0 && normalizedDigits.length > 0 && cellVal === normalizedDigits;
     });
 
     if (isDuplicate) {
       return res.status(400).json({ error: "Dit lyk of jy reeds met hierdie nommer RSVP'd het!" });
     }
 
-    // 2. If sheet is brand new/empty, include column headers
-    const timestamp = new Date().toISOString();
+    // 2. Format row values (prepend ' to cellphone so Google Sheets treats it as text and keeps leading zero)
+    const formattedPhone = cellphone.toString().trim().startsWith("'") ? cellphone : `'${cellphone.toString().trim()}`;
+    const timestamp = new Date().toLocaleString("en-ZA", { timeZone: "Africa/Johannesburg" });
     const values: string[][] = [];
     
     if (rows.length === 0) {
       values.push(["Naam & Van", "Maat se Naam", "Selfoonnommer", "E-pos", "Hoofgereg", "Dieetvereistes", "Boodskap", "Datum Stempel"]);
     }
     
-    values.push([name, partnerName || "", cellphone, email || "", mainCourse || "", dietary || "", message || "", timestamp]);
+    values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", message || "", timestamp]);
 
     await sheets.spreadsheets.values.append({
       spreadsheetId,
