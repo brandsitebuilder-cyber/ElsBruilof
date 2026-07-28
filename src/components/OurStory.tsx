@@ -40,7 +40,7 @@ export default function OurStory() {
               <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
                 {t.subtitle}
               </h3>
-              <h2 className="font-serif text-4xl md:text-6xl text-brand-text uppercase tracking-[0.15em] mb-8">
+              <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl text-brand-text uppercase tracking-[0.08em] sm:tracking-[0.15em] mb-8 break-words">
                 {t.title}
               </h2>
               <div className="w-12 h-[1px] bg-brand-accent mx-auto mb-12"></div>

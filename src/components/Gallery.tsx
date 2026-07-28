@@ -74,7 +74,7 @@ export default function Gallery() {
           <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
             {t.subtitle}
           </h3>
-          <h2 className="font-serif text-4xl md:text-6xl text-brand-text uppercase tracking-[0.15em] mb-8">
+          <h2 className="font-serif text-2xl sm:text-4xl md:text-6xl text-brand-text uppercase tracking-[0.06em] sm:tracking-[0.15em] mb-8 break-words max-w-full">
             {t.title}
           </h2>
           <div className="w-px h-16 bg-brand-accent/50 mx-auto"></div>

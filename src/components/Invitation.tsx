@@ -64,11 +64,18 @@ export default function Invitation() {
             </svg>
             <span>LOCH LYNNE WYNLANDGOED, DURBANVILLE</span>
           </li>
-          <li className="flex items-center space-x-3 text-xs md:text-sm uppercase tracking-[0.2em] font-light text-brand-text/80">
-            <svg className="w-3.5 h-3.5 fill-brand-accent text-brand-accent flex-shrink-0" viewBox="0 0 24 24">
-              <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z" />
-            </svg>
-            <span>KLEREDRAG: FORMELE ELEGANSIE ("BLACK TIE")</span>
+          <li className="flex flex-col items-start space-y-1">
+            <div className="flex items-center space-x-3 text-sm md:text-base uppercase tracking-[0.25em] font-light text-brand-text">
+              <svg className="w-3.5 h-3.5 fill-brand-accent text-brand-accent flex-shrink-0" viewBox="0 0 24 24">
+                <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z" />
+              </svg>
+              <span>KLEREDRAG: FORMELE ELEGANSIE ("BLACK TIE")</span>
+            </div>
+            {t.attireNote && (
+              <p className="pl-6 text-xs md:text-sm text-brand-accent/90 italic tracking-wider font-light">
+                Sien “Kleredrag & RSVP vir meer inligting”
+              </p>
+            )}
           </li>
         </ul>
 

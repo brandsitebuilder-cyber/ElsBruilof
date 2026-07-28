@@ -22,7 +22,7 @@ export const content = {
       subtitle: "Die Begin",
       title: "Ons Storie",
       p1: "Met agt jaar tussen ons, sou ons paaie in die gewone lewe seker nooit gekruis het nie. Maar in 2024 het dit gebeur, en dit het net reg gevoel, soos 'n bietjie hulp van Bo.",
-      p2: "Lourens het nie gou tou opgegooi nie, en vinnig het boodskappe in ure lange oproepe verander. Op ons eerste afspraak, oor 'n glas wyn by Laborie, was ons tuis. Later, daardie selfde middag, het Lourens vir Ane se ouers ontmoet.",
+      p2: "Lourens het nie gou tou opgegooi nie, en vinnig het boodskappe in ure lange oproepe verander. Op ons eerste afspraak, oor 'n glas wyn by Laborie, was ons tuis. Later, daardie selfde middag, het Lourens vir Ané se ouers ontmoet.",
       p3: "Pretoria en Kaapstad het ons getoets, maar nooit gekelder nie. Soveel vlugte, soveel keer een van ons wat by die lughawe afgelaai of opgelaai is. Vinnig het ons geweet: dit is ons tuiste.",
       p4: "Vandag is ons mekaar se balans: sy die lig, hy die kompas. Ons is dankbaar vir die lewe wat ons saam bou."
     },
@@ -35,6 +35,7 @@ export const content = {
       datetime: "SATERDAG, 21 NOVEMBER 2026 — 15:30 VIR 16:00",
       venue: "LOCH LYNNE WYNLANDGOED, DURBANVILLE",
       attire: "KLEREDRAG: FORMELE ELEGANSIE (\"BLACK TIE\").",
+      attireNote: "Sien \"Kleredrag & RSVP vir meer inligting\"",
       closing: ""
     },
     details: {
@@ -174,7 +175,7 @@ export const content = {
       subtitle: "Die Begin",
       title: "Ons Storie",
       p1: "Met agt jaar tussen ons, sou ons paaie in die gewone lewe seker nooit gekruis het nie. Maar in 2024 het dit gebeur, en dit het net reg gevoel, soos 'n bietjie hulp van Bo.",
-      p2: "Lourens het nie gou tou opgegooi nie, en vinnig het boodskappe in ure lange oproepe verander. Op ons eerste afspraak, oor 'n glas wyn by Laborie, was ons tuis. Later, daardie selfde middag, het Lourens vir Ane se ouers ontmoet.",
+      p2: "Lourens het nie gou tou opgegooi nie, en vinnig het boodskappe in ure lange oproepe verander. Op ons eerste afspraak, oor 'n glas wyn by Laborie, was ons tuis. Later, daardie selfde middag, het Lourens vir Ané se ouers ontmoet.",
       p3: "Pretoria en Kaapstad het ons getoets, maar nooit gekelder nie. Soveel vlugte, soveel keer een van ons wat by die lughawe afgelaai of opgelaai is. Vinnig het ons geweet: dit is ons tuiste.",
       p4: "Vandag is ons mekaar se balans: sy die lig, hy die kompas. Ons is dankbaar vir die lewe wat ons saam bou."
     },
@@ -187,6 +188,7 @@ export const content = {
       datetime: "SATERDAG, 21 NOVEMBER 2026 — 15:30 VIR 16:00",
       venue: "LOCH LYNNE WYNLANDGOED, DURBANVILLE",
       attire: "KLEREDRAG: FORMELE ELEGANSIE (\"BLACK TIE\").",
+      attireNote: "Sien \"Kleredrag & RSVP vir meer inligting\"",
       closing: ""
     },
     details: {
