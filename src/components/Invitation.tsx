@@ -45,19 +45,27 @@ export default function Invitation() {
         
         <ul className="inline-flex flex-col items-start space-y-4 mb-20 text-left max-w-xl mx-auto">
           <li className="flex items-center space-x-3 text-sm md:text-base uppercase tracking-[0.25em] font-light text-brand-text">
-            <span className="w-2 h-2 rounded-full bg-brand-accent flex-shrink-0"></span>
+            <svg className="w-3.5 h-3.5 fill-brand-accent text-brand-accent flex-shrink-0" viewBox="0 0 24 24">
+              <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z" />
+            </svg>
             <span>SATERDAG, 21 NOVEMBER 2026</span>
           </li>
           <li className="flex items-center space-x-3 text-sm md:text-base uppercase tracking-[0.25em] font-light text-brand-text">
-            <span className="w-2 h-2 rounded-full bg-brand-accent flex-shrink-0"></span>
+            <svg className="w-3.5 h-3.5 fill-brand-accent text-brand-accent flex-shrink-0" viewBox="0 0 24 24">
+              <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z" />
+            </svg>
             <span>15:30 VIR 16:00</span>
           </li>
           <li className="flex items-center space-x-3 text-sm md:text-base uppercase tracking-[0.25em] font-light text-brand-text/90">
-            <span className="w-2 h-2 rounded-full bg-brand-accent flex-shrink-0"></span>
+            <svg className="w-3.5 h-3.5 fill-brand-accent text-brand-accent flex-shrink-0" viewBox="0 0 24 24">
+              <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z" />
+            </svg>
             <span>LOCH LYNNE WYNLANDGOED, DURBANVILLE</span>
           </li>
           <li className="flex items-center space-x-3 text-xs md:text-sm uppercase tracking-[0.2em] font-light text-brand-text/80">
-            <span className="w-2 h-2 rounded-full bg-brand-accent flex-shrink-0"></span>
+            <svg className="w-3.5 h-3.5 fill-brand-accent text-brand-accent flex-shrink-0" viewBox="0 0 24 24">
+              <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z" />
+            </svg>
             <span>KLEREDRAG: FORMELE ELEGANSIE ("BLACK TIE")</span>
           </li>
         </ul>
