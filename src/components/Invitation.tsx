@@ -8,7 +8,7 @@ export default function Invitation() {
   const t = content[language].invitation;
 
   return (
-    <section id="invitation" className="py-32 md:py-48 bg-brand-bg text-center relative overflow-hidden">
+    <section id="invitation" className="pt-24 pb-10 md:pt-36 md:pb-14 bg-brand-bg text-center relative overflow-hidden">
       <div className="absolute inset-0 flex justify-center items-center opacity-[0.03] pointer-events-none">
         <span className="font-serif text-[40vw] text-brand-text leading-none select-none">A&L</span>
       </div>
@@ -43,7 +43,7 @@ export default function Invitation() {
           {t.message}
         </p>
         
-        <ul className="inline-flex flex-col items-start space-y-4 mb-20 text-left max-w-xl mx-auto">
+        <ul className="inline-flex flex-col items-start space-y-4 mb-10 text-left max-w-xl mx-auto">
           <li className="flex items-center space-x-3 text-sm md:text-base uppercase tracking-[0.25em] font-light text-brand-text">
             <svg className="w-3.5 h-3.5 fill-brand-accent text-brand-accent flex-shrink-0" viewBox="0 0 24 24">
               <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z" />
@@ -71,7 +71,7 @@ export default function Invitation() {
         </ul>
 
         {t.closing && (
-          <p className="text-2xl md:text-3xl font-[Pinyon_Script] text-brand-text/80 mb-20">
+          <p className="text-2xl md:text-3xl font-[Pinyon_Script] text-brand-text/80 mb-10">
             {t.closing}
           </p>
         )}

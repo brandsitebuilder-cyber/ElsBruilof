@@ -58,7 +58,7 @@ export default function DetailsRSVP() {
   };
 
   return (
-    <section id="details" className="py-32 md:py-48 bg-brand-bg">
+    <section id="details" className="pt-8 pb-24 md:pt-12 md:pb-36 bg-brand-bg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
           
