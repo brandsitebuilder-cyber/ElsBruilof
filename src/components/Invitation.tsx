@@ -2,6 +2,8 @@ import React from 'react';
 import { useLanguage } from '../LanguageContext';
 import { content } from '../content';
 import { motion } from 'motion/react';
+import CountdownTimer from './CountdownTimer';
+import CalendarButtons from './CalendarButtons';
 
 export default function Invitation() {
   const { language } = useLanguage();
@@ -70,8 +72,16 @@ export default function Invitation() {
           </li>
         </ul>
 
+        {/* Live Countdown Timer */}
+        <CountdownTimer />
+
+        {/* Add to Calendar Options */}
+        <div className="mb-10">
+          <CalendarButtons />
+        </div>
+
         {t.closing && (
-          <p className="text-2xl md:text-3xl font-[Pinyon_Script] text-brand-text/80 mb-10">
+          <p className="text-2xl md:text-3xl font-[Pinyon_Script] text-brand-text/80 mb-8">
             {t.closing}
           </p>
         )}

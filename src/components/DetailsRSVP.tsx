@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useLanguage } from '../LanguageContext';
 import { content } from '../content';
 import { motion } from 'motion/react';
+import { MapPin, Navigation, Copy, Check, ExternalLink } from 'lucide-react';
 
 export default function DetailsRSVP() {
   const { language } = useLanguage();
   const t = content[language].details;
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [copiedAddress, setCopiedAddress] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     partnerName: '',
@@ -17,6 +19,12 @@ export default function DetailsRSVP() {
     dietary: '',
     message: ''
   });
+
+  const handleCopyAddress = () => {
+    navigator.clipboard.writeText('Loch Lynne Wine Estate, Koeberg Rd, Durbanville, Cape Town, 7550');
+    setCopiedAddress(true);
+    setTimeout(() => setCopiedAddress(false), 3000);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,6 +98,52 @@ export default function DetailsRSVP() {
                   </li>
                 ))}
               </ul>
+            </div>
+
+            {/* Venue & Directions Card */}
+            <div className="pt-8 border-t border-brand-accent/20">
+              <h3 className="font-[Pinyon_Script] text-3xl md:text-4xl text-brand-accent mb-2">
+                Ligging
+              </h3>
+              <h4 className="font-serif text-xl text-brand-text uppercase tracking-widest mb-4">
+                Loch Lynne Wynlandgoed
+              </h4>
+              <p className="text-brand-text/70 font-light text-xs md:text-sm tracking-wide leading-relaxed mb-6">
+                Koeberg Rd, Durbanville, Kaapstad, 7550
+              </p>
+
+              <div className="flex flex-wrap items-center gap-3">
+                <a 
+                  href="https://maps.google.com/?q=Loch+Lynne+Wine+Estate+Durbanville"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-2 bg-brand-accent text-white px-4 py-2 text-xs uppercase tracking-widest hover:bg-brand-accent/90 transition-colors"
+                >
+                  <MapPin size={14} />
+                  <span>Google Maps</span>
+                  <ExternalLink size={12} className="opacity-70" />
+                </a>
+
+                <a 
+                  href="https://waze.com/ul?q=Loch%20Lynne%20Wine%20Estate%20Durbanville"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-2 border border-brand-accent/60 text-brand-text px-4 py-2 text-xs uppercase tracking-widest hover:bg-brand-accent/10 transition-colors"
+                >
+                  <Navigation size={14} className="text-brand-accent" />
+                  <span>Waze</span>
+                  <ExternalLink size={12} className="opacity-70" />
+                </a>
+
+                <button
+                  onClick={handleCopyAddress}
+                  className="inline-flex items-center space-x-1.5 border border-brand-accent/40 text-brand-text/80 px-3 py-2 text-xs uppercase tracking-widest hover:border-brand-accent transition-colors"
+                  title="Kopieer adres"
+                >
+                  {copiedAddress ? <Check size={14} className="text-green-600" /> : <Copy size={14} />}
+                  <span>{copiedAddress ? 'Gekopieer!' : 'Kopieer Adres'}</span>
+                </button>
+              </div>
             </div>
           </motion.div>
 

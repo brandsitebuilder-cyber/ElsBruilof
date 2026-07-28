@@ -60,7 +60,7 @@ export default function MusicPlayer() {
       <div className="fixed -top-[10000px] -left-[10000px] w-[200px] h-[200px] opacity-0 pointer-events-none overflow-hidden -z-50">
         <ReactPlayer
           ref={playerRef}
-          src="https://youtu.be/4Wxi4sVCeo0?list=RD4Wxi4sVCeo0"
+          url="https://www.youtube.com/watch?v=L_jgIezosVA"
           playing={playing}
           muted={isMuted}
           loop={true}
