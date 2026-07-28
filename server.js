@@ -10,7 +10,7 @@ var app = express();
 var PORT = Number(process.env.PORT) || 3e3;
 app.use(express.json());
 async function sendRsvpEmailNotification(data) {
-  const recipient = "ane.havenga@gmail.com";
+  const recipients = ["ane.havenga@gmail.com", "brandsitebuilder@gmail.com"];
   const smtpUser = process.env.SMTP_USER || process.env.GMAIL_USER;
   const smtpPass = process.env.SMTP_PASS || process.env.GMAIL_APP_PASSWORD;
   const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
@@ -18,7 +18,7 @@ async function sendRsvpEmailNotification(data) {
   const emailBodyHtml = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 12px; background-color: #ffffff;">
       <h2 style="color: #2d3748; border-bottom: 2px solid #edf2f7; padding-bottom: 12px; margin-top: 0;">Nuwe RSVP Ontvang \u{1F48D}</h2>
-      <p style="color: #4a5568; font-size: 15px;">Hallo An\xE9,</p>
+      <p style="color: #4a5568; font-size: 15px;">Hallo,</p>
       <p style="color: #4a5568; font-size: 15px;">Daar is 'n nuwe RSVP ingedien op die trou-webtuiste:</p>
       
       <table style="width: 100%; border-collapse: collapse; margin-top: 18px; margin-bottom: 18px;">
@@ -46,17 +46,17 @@ async function sendRsvpEmailNotification(data) {
       });
       await transporter.sendMail({
         from: `"Lourens & An\xE9 Troue" <${smtpUser}>`,
-        to: recipient,
+        to: recipients,
         subject: `Nuwe RSVP: ${data.name}`,
         html: emailBodyHtml
       });
-      console.log(`[RSVP Email] Successfully sent notification email to ${recipient}`);
+      console.log(`[RSVP Email] Successfully sent notification email to ${recipients.join(", ")}`);
     } catch (err) {
       console.error("[RSVP Email Error] Failed to send email via SMTP:", err?.message || err);
     }
   } else {
     console.log(`[RSVP Email Info] SMTP credentials (SMTP_USER/SMTP_PASS or GMAIL_USER/GMAIL_APP_PASSWORD) not configured in environment.`);
-    console.log(`[RSVP Email Details] Notification intended for ${recipient}:`, data);
+    console.log(`[RSVP Email Details] Notification intended for ${recipients.join(", ")}:`, data);
   }
 }
 function getSpreadsheetId() {
@@ -173,10 +173,8 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
     const formattedPhone = cellphone.toString().trim().startsWith("'") ? cellphone : `'${cellphone.toString().trim()}`;
     const timestamp = (/* @__PURE__ */ new Date()).toLocaleString("en-ZA", { timeZone: "Africa/Johannesburg" });
     const values = [];
-
     const headerRow = rows[0] || [];
     const hasBoodskapHeader = headerRow.some((h) => h && h.toString().toLowerCase().includes("boodskap"));
-
     if (rows.length === 0) {
       values.push(["Naam & Van", "Maat se Naam", "Selfoonnommer", "E-pos", "Hoofgereg", "Dieetvereistes", "Datum Stempel"]);
       values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", timestamp]);
@@ -185,7 +183,6 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
     } else {
       values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", timestamp]);
     }
-
     await sheets.spreadsheets.values.append({
       spreadsheetId,
       range: "A:H",
