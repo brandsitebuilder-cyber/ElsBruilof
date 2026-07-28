@@ -156,27 +156,60 @@ export default function DetailsRSVP() {
             className="lg:col-span-5"
           >
             <div className="bg-brand-fill p-8 md:p-14 border border-brand-accent/20">
-              <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
-                {t.rsvpSubtitle}
-              </h3>
-              <h2 className="font-serif text-3xl md:text-4xl text-brand-text uppercase tracking-[0.15em] mb-8">
-                {t.rsvpTitle}
-              </h2>
-              <div className="w-12 h-[1px] bg-brand-accent mb-10"></div>
-              
-              <div className="text-brand-text/80 font-light mb-10 leading-[2] text-sm md:text-base tracking-wide whitespace-pre-line">
-                {t.rsvpText}
-              </div>
-
               {isSubmitted ? (
-                <div className="text-center py-12 border border-brand-accent/30 bg-brand-bg/50">
-                  <h3 className="font-[Pinyon_Script] text-4xl text-brand-accent mb-4">{t.thankYou}</h3>
-                  <p className="text-brand-text/70 font-light tracking-wide uppercase text-xs">
-                    U RSVP is suksesvol ontvang.
-                  </p>
+                <div>
+                  <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
+                    {language === 'en' ? 'Thank You' : 'Baie Dankie'}
+                  </h3>
+                  <h2 className="font-serif text-3xl md:text-4xl text-brand-text uppercase tracking-[0.15em] mb-8">
+                    {language === 'en' ? 'RSVP Confirmed' : 'RSVP Bevestig'}
+                  </h2>
+                  <div className="w-12 h-[1px] bg-brand-accent mb-10"></div>
+
+                  <div className="text-center py-10 px-6 border border-brand-accent/30 bg-brand-bg/50">
+                    <p className="font-serif text-2xl text-brand-accent mb-3">
+                      {t.thankYou}
+                    </p>
+                    <p className="text-brand-text/80 font-light tracking-wide text-sm md:text-base leading-relaxed">
+                      {language === 'en'
+                        ? 'Your RSVP has been successfully received. We look forward to celebrating this special day with you!'
+                        : 'U RSVP is suksesvol ontvang. Ons sien baie uit daarna om hierdie spesiale dag saam met u te vier!'}
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      setIsSubmitted(false);
+                      setFormData({
+                        name: '',
+                        partnerName: '',
+                        cellphone: '',
+                        email: '',
+                        mainCourse: '',
+                        dietary: '',
+                        message: ''
+                      });
+                    }}
+                    className="mt-8 text-xs uppercase tracking-widest text-brand-accent hover:underline font-light block mx-auto transition-all"
+                  >
+                    {language === 'en' ? 'Submit another RSVP' : 'Dien \'n ander RSVP in'}
+                  </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-8">
+                <>
+                  <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
+                    {t.rsvpSubtitle}
+                  </h3>
+                  <h2 className="font-serif text-3xl md:text-4xl text-brand-text uppercase tracking-[0.15em] mb-8">
+                    {t.rsvpTitle}
+                  </h2>
+                  <div className="w-12 h-[1px] bg-brand-accent mb-10"></div>
+                  
+                  <div className="text-brand-text/80 font-light mb-10 leading-[2] text-sm md:text-base tracking-wide whitespace-pre-line">
+                    {t.rsvpText}
+                  </div>
+
+                  <form onSubmit={handleSubmit} className="space-y-8">
                   {/* Volle Naam */}
                   <div className="space-y-2">
                     <label htmlFor="name" className="block text-xs uppercase tracking-[0.15em] text-brand-text/70 font-medium">
@@ -283,6 +316,7 @@ export default function DetailsRSVP() {
                     {t.form.submit}
                   </button>
                 </form>
+                </>
               )}
             </div>
           </motion.div>
