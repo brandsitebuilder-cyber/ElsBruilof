@@ -215,16 +215,18 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
       }
     });
     console.log(`[RSVP Success] Appended entry for ${name} (${cellphone})`);
-    sendRsvpEmailNotification({
-      name,
-      partnerName,
-      cellphone,
-      email,
-      mainCourse,
-      dietary
-    }).catch((emailErr) => {
+    try {
+      await sendRsvpEmailNotification({
+        name,
+        partnerName,
+        cellphone,
+        email,
+        mainCourse,
+        dietary
+      });
+    } catch (emailErr) {
       console.error("[RSVP Email Error] Async email dispatch error:", emailErr);
-    });
+    }
     res.status(200).json({ message: "Dankie vir u RSVP!" });
   } catch (error) {
     console.error("Google Sheets Error:", error?.message || error);

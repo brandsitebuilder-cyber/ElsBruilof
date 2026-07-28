@@ -271,17 +271,19 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
 
     console.log(`[RSVP Success] Appended entry for ${name} (${cellphone})`);
     
-    // Trigger email notification to Ané (asynchronously or caught)
-    sendRsvpEmailNotification({
-      name,
-      partnerName,
-      cellphone,
-      email,
-      mainCourse,
-      dietary,
-    }).catch((emailErr) => {
+    // Send email notification (awaited — must complete before response on Vercel serverless)
+    try {
+      await sendRsvpEmailNotification({
+        name,
+        partnerName,
+        cellphone,
+        email,
+        mainCourse,
+        dietary,
+      });
+    } catch (emailErr) {
       console.error("[RSVP Email Error] Async email dispatch error:", emailErr);
-    });
+    }
 
     res.status(200).json({ message: "Dankie vir u RSVP!" });
   } catch (error: any) {
