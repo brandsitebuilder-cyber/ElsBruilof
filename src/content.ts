@@ -34,7 +34,7 @@ export const content = {
       message: "Julle teenwoordigheid sal alles vir ons beteken wanneer ons voor mekaar ons geloftes aflê, ons geloof bely, en saam die toekoms instap.",
       datetime: "SATERDAG, 21 NOVEMBER 2026 — 15:30 VIR 16:00",
       venue: "LOCH LYNNE WYNLANDGOED, DURBANVILLE",
-      attire: "KLEREDRAG: FORMELE ELEGANSIE (\"BLACK TIE\"). SIEN KLEREDRAGVEREISTES VIR BESONDERHEDE.",
+      attire: "KLEREDRAG: FORMELE ELEGANSIE (\"BLACK TIE\").",
       closing: ""
     },
     details: {
@@ -186,7 +186,7 @@ export const content = {
       message: "Julle teenwoordigheid sal alles vir ons beteken wanneer ons voor mekaar ons geloftes aflê, ons geloof bely, en saam die toekoms instap.",
       datetime: "SATERDAG, 21 NOVEMBER 2026 — 15:30 VIR 16:00",
       venue: "LOCH LYNNE WYNLANDGOED, DURBANVILLE",
-      attire: "KLEREDRAG: FORMELE ELEGANSIE (\"BLACK TIE\"). SIEN KLEREDRAGVEREISTES VIR BESONDERHEDE.",
+      attire: "KLEREDRAG: FORMELE ELEGANSIE (\"BLACK TIE\").",
       closing: ""
     },
     details: {

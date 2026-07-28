@@ -43,23 +43,24 @@ export default function Invitation() {
           {t.message}
         </p>
         
-        <div className="space-y-6 mb-20">
-          <p className="text-sm md:text-base uppercase tracking-[0.3em] font-light text-brand-text">
-            SATERDAG, 21 NOVEMBER 2026
-          </p>
-          <p className="text-sm md:text-base uppercase tracking-[0.3em] font-light text-brand-text">
-            15:30 VIR 16:00
-          </p>
-          <div className="w-12 h-[1px] bg-brand-accent/30 mx-auto my-4"></div>
-          <p className="text-sm md:text-base uppercase tracking-[0.3em] font-light text-brand-text/70">
-            LOCH LYNNE WYNLANDGOED, DURBANVILLE
-          </p>
-          <div className="w-12 h-[1px] bg-brand-accent/30 mx-auto my-4"></div>
-          <p className="text-xs md:text-sm uppercase tracking-[0.2em] font-light text-brand-text/70 pt-2 max-w-lg mx-auto">
-            KLEREDRAG: FORMELE ELEGANSIE ("BLACK TIE").<br />
-            <span className="text-[10px] md:text-xs text-brand-text/50">SIEN KLEREDRAGVEREISTES VIR BESONDERHEDE.</span>
-          </p>
-        </div>
+        <ul className="inline-flex flex-col items-start space-y-4 mb-20 text-left max-w-xl mx-auto">
+          <li className="flex items-center space-x-3 text-sm md:text-base uppercase tracking-[0.25em] font-light text-brand-text">
+            <span className="w-2 h-2 rounded-full bg-brand-accent flex-shrink-0"></span>
+            <span>SATERDAG, 21 NOVEMBER 2026</span>
+          </li>
+          <li className="flex items-center space-x-3 text-sm md:text-base uppercase tracking-[0.25em] font-light text-brand-text">
+            <span className="w-2 h-2 rounded-full bg-brand-accent flex-shrink-0"></span>
+            <span>15:30 VIR 16:00</span>
+          </li>
+          <li className="flex items-center space-x-3 text-sm md:text-base uppercase tracking-[0.25em] font-light text-brand-text/90">
+            <span className="w-2 h-2 rounded-full bg-brand-accent flex-shrink-0"></span>
+            <span>LOCH LYNNE WYNLANDGOED, DURBANVILLE</span>
+          </li>
+          <li className="flex items-center space-x-3 text-xs md:text-sm uppercase tracking-[0.2em] font-light text-brand-text/80">
+            <span className="w-2 h-2 rounded-full bg-brand-accent flex-shrink-0"></span>
+            <span>KLEREDRAG: FORMELE ELEGANSIE ("BLACK TIE")</span>
+          </li>
+        </ul>
 
         {t.closing && (
           <p className="text-2xl md:text-3xl font-[Pinyon_Script] text-brand-text/80 mb-20">

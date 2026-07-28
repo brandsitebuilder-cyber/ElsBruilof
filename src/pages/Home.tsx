@@ -3,7 +3,6 @@ import Hero from '../components/Hero';
 import OurStory from '../components/OurStory';
 import Invitation from '../components/Invitation';
 import DetailsRSVP from '../components/DetailsRSVP';
-import Registry from '../components/Registry';
 import Accommodation from '../components/Accommodation';
 import FAQ from '../components/FAQ';
 import Gallery from '../components/Gallery';
@@ -15,7 +14,6 @@ export default function Home() {
       <OurStory />
       <Invitation />
       <DetailsRSVP />
-      <Registry />
       <Accommodation />
       <FAQ />
       <Gallery />
