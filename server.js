@@ -138,6 +138,24 @@ app.get("/api/test-sheets", async (req, res) => {
     });
   }
 });
+app.get("/api/export-sheet", async (req, res) => {
+  const token = req.query.token;
+  if (token !== "elsbruilof-backup-2026") {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  try {
+    const sheets = getSheetsClient();
+    const spreadsheetId = getSpreadsheetId();
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: "A:H"
+    });
+    const rows = response.data.values || [];
+    res.json({ success: true, rows, exportedAt: (/* @__PURE__ */ new Date()).toISOString() });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
 function getSheetsClient() {
   let clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
   if (clientEmail === "elsbruilof@gserviceaccount.com") {

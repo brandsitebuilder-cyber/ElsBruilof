@@ -172,6 +172,26 @@ app.get("/api/test-sheets", async (req, res) => {
   }
 });
 
+// Export endpoint: returns full sheet data as JSON (token-protected)
+app.get("/api/export-sheet", async (req, res) => {
+  const token = req.query.token as string;
+  if (token !== "elsbruilof-backup-2026") {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  try {
+    const sheets = getSheetsClient();
+    const spreadsheetId = getSpreadsheetId();
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range: "A:H",
+    });
+    const rows = response.data.values || [];
+    res.json({ success: true, rows, exportedAt: new Date().toISOString() });
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // Helper to get Google Sheets client
 function getSheetsClient() {
   let clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
