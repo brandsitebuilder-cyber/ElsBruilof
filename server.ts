@@ -21,7 +21,7 @@ async function sendRsvpEmailNotification(data: {
   mainCourse?: string;
   dietary?: string;
 }) {
-  const recipients = ["ane.havenga@gmail.com", "brandsitebuilder@gmail.com"];
+  const recipients = ["ane.havenga@gmail.com"];
   
   // Prefer explicit Gmail credentials over service account env variables
   let user = process.env.GMAIL_USER;

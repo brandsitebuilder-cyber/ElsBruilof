@@ -10,7 +10,7 @@ var app = express();
 var PORT = Number(process.env.PORT) || 3e3;
 app.use(express.json());
 async function sendRsvpEmailNotification(data) {
-  const recipients = ["ane.havenga@gmail.com", "brandsitebuilder@gmail.com"];
+  const recipients = ["ane.havenga@gmail.com"];
   let user = process.env.GMAIL_USER;
   if (!user && process.env.SMTP_USER && !process.env.SMTP_USER.includes("gserviceaccount.com")) {
     user = process.env.SMTP_USER;
@@ -18,7 +18,6 @@ async function sendRsvpEmailNotification(data) {
   if (!user) {
     user = process.env.GMAIL_USER || process.env.SMTP_USER;
   }
-
   let rawPass = process.env.GMAIL_APP_PASSWORD;
   if (!rawPass && process.env.SMTP_PASS && !process.env.SMTP_PASS.includes("BEGIN PRIVATE KEY")) {
     rawPass = process.env.SMTP_PASS;
@@ -26,7 +25,6 @@ async function sendRsvpEmailNotification(data) {
   if (!rawPass) {
     rawPass = process.env.GMAIL_APP_PASSWORD || process.env.SMTP_PASS;
   }
-
   const cleanPass = rawPass ? rawPass.replace(/\s+/g, "") : "";
   const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
   const smtpPort = parseInt(process.env.SMTP_PORT || "465", 10);
@@ -50,23 +48,21 @@ async function sendRsvpEmailNotification(data) {
   `;
   if (user && cleanPass) {
     try {
-      const transporter = smtpHost.includes("gmail")
-        ? nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-              user: user,
-              pass: cleanPass
-            }
-          })
-        : nodemailer.createTransport({
-            host: smtpHost,
-            port: smtpPort,
-            secure: smtpPort === 465,
-            auth: {
-              user: user,
-              pass: cleanPass
-            }
-          });
+      const transporter = smtpHost.includes("gmail") ? nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user,
+          pass: cleanPass
+        }
+      }) : nodemailer.createTransport({
+        host: smtpHost,
+        port: smtpPort,
+        secure: smtpPort === 465,
+        auth: {
+          user,
+          pass: cleanPass
+        }
+      });
       await transporter.sendMail({
         from: `"Lourens & An\xE9 Troue" <${user}>`,
         to: recipients,
