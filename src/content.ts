@@ -48,6 +48,7 @@ export const content = {
         "Vir dames: Swart formele aandrokke of verfynde swart skemerkelkiedrag.",
         "Ons moedig 'n tydlose, gesofistikeerde styl aan wat by die gees van die aand pas."
       ],
+      attireReminder: "Onthou asseblief: SWART word van ALLE gaste vereis — geen ander kleure nie.",
       rsvpSubtitle: "Sluit by ons aan",
       rsvpTitle: "RSVP",
       rsvpText: "Ons nooi julle graag om in ons vreugde te deel. Bevestig asseblief julle bywoning voor 15 September 2026.\nRSVP gerus via die vorm hieronder.",
@@ -64,7 +65,10 @@ export const content = {
           "Vegan/Vegetaries."
         ],
         dietary: "Allergieë of ander dieetvereistes",
+        partnerMainCourseLabel: "Metgesel se hoofgereg-keuse",
+        partnerDietary: "Metgesel se allergieë of ander dieetvereistes",
         submit: "Dien RSVP in",
+        dressCodeNote: "Onthou asseblief: Die kleredrag is SWART (streng formeel).",
         duplicateError: "Dit lyk of jy reeds met hierdie nommer RSVP'd het!",
         networkError: "Kon nie aan die bediener koppel nie. Gaan asseblief u verbinding na.",
         genericError: "Iets het foutgegaan. Probeer asseblief later weer."
@@ -201,6 +205,7 @@ export const content = {
         "Vir dames: Swart formele aandrokke of verfynde swart skemerkelkiedrag.",
         "Ons moedig 'n tydlose, gesofistikeerde styl aan wat by die gees van die aand pas."
       ],
+      attireReminder: "Onthou asseblief: SWART word van ALLE gaste vereis — geen ander kleure nie.",
       rsvpSubtitle: "Sluit by ons aan",
       rsvpTitle: "RSVP",
       rsvpText: "Ons nooi julle graag om in ons vreugde te deel. Bevestig asseblief julle bywoning voor 15 September 2026.\nRSVP gerus via die vorm hieronder.",
@@ -217,7 +222,10 @@ export const content = {
           "Vegan/Vegetaries."
         ],
         dietary: "Allergieë of ander dieetvereistes",
+        partnerMainCourseLabel: "Metgesel se hoofgereg-keuse",
+        partnerDietary: "Metgesel se allergieë of ander dieetvereistes",
         submit: "Dien RSVP in",
+        dressCodeNote: "Onthou asseblief: Die kleredrag is SWART (streng formeel).",
         duplicateError: "Dit lyk of jy reeds met hierdie nommer RSVP'd het!",
         networkError: "Kon nie aan die bediener koppel nie. Gaan asseblief u verbinding na.",
         genericError: "Iets het foutgegaan. Probeer asseblief later weer."

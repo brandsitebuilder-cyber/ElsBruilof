@@ -16,7 +16,9 @@ export default function DetailsRSVP() {
     cellphone: '',
     email: '',
     mainCourse: '',
-    dietary: ''
+    dietary: '',
+    partnerMainCourse: '',
+    partnerDietary: ''
   });
 
   const handleCopyAddress = () => {
@@ -60,7 +62,7 @@ export default function DetailsRSVP() {
   };
 
   const handleCellphoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, ''); // Only allow digits
+    const value = e.target.value.replace(/\D/g, '');
     setFormData({ ...formData, cellphone: value });
   };
 
@@ -97,6 +99,19 @@ export default function DetailsRSVP() {
                   </li>
                 ))}
               </ul>
+
+              {/* Dress code visual example */}
+              <div className="mt-10 border border-brand-accent/30 bg-brand-fill p-4">
+                <img 
+                  src="/dress-code.png" 
+                  alt="Kleredrag voorbeeld: swart formele drag"
+                  className="w-full h-auto"
+                  loading="lazy"
+                />
+                <p className="text-center text-brand-text font-medium text-sm md:text-base tracking-wide mt-4 leading-relaxed">
+                  {t.attireReminder}
+                </p>
+              </div>
             </div>
 
             {/* Venue & Directions Card */}
@@ -185,7 +200,9 @@ export default function DetailsRSVP() {
                         cellphone: '',
                         email: '',
                         mainCourse: '',
-                        dietary: ''
+                        dietary: '',
+                        partnerMainCourse: '',
+                        partnerDietary: ''
                       });
                     }}
                     className="mt-8 text-xs uppercase tracking-widest text-brand-accent hover:underline font-light block mx-auto transition-all"
@@ -267,10 +284,10 @@ export default function DetailsRSVP() {
                     />
                   </div>
 
-                  {/* Hoofgereg-keuse en dieetvereistes */}
+                  {/* U hoofgereg-keuse */}
                   <div className="space-y-3 pt-2">
                     <label className="block text-xs uppercase tracking-[0.15em] text-brand-text/70 font-medium leading-relaxed">
-                      {t.form.mainCourseLabel} <span className="text-brand-accent">*</span>
+                      {formData.partnerName ? 'U hoofgereg-keuse' : t.form.mainCourseLabel} <span className="text-brand-accent">*</span>
                     </label>
                     <div className="space-y-3">
                       {t.form.mainCourseOptions.map((option, index) => (
@@ -292,10 +309,10 @@ export default function DetailsRSVP() {
                     </div>
                   </div>
 
-                  {/* Allergieë of ander dieetvereistes */}
+                  {/* U dieetvereistes */}
                   <div className="space-y-2 pt-2">
                     <label htmlFor="dietary" className="block text-xs uppercase tracking-[0.15em] text-brand-text/70 font-medium leading-relaxed">
-                      {t.form.dietary}
+                      {formData.partnerName ? 'U allergieë / dieetvereistes' : t.form.dietary}
                     </label>
                     <textarea 
                       id="dietary" 
@@ -306,9 +323,59 @@ export default function DetailsRSVP() {
                     ></textarea>
                   </div>
 
+                  {/* Metgesel se hoofgereg-keuse — shown only when partnerName is filled */}
+                  {formData.partnerName.trim() !== '' && (
+                    <>
+                      <div className="border-t border-brand-accent/20 pt-6 mt-4 space-y-3">
+                        <label className="block text-xs uppercase tracking-[0.15em] text-brand-text/70 font-medium leading-relaxed">
+                          {t.form.partnerMainCourseLabel} <span className="text-brand-accent">*</span>
+                        </label>
+                        <div className="space-y-3">
+                          {t.form.mainCourseOptions.map((option, index) => (
+                            <label key={index} className="flex items-start space-x-3 cursor-pointer group">
+                              <input 
+                                type="radio" 
+                                name="partnerMainCourse"
+                                required
+                                value={option}
+                                checked={formData.partnerMainCourse === option}
+                                onChange={(e) => setFormData({ ...formData, partnerMainCourse: e.target.value })}
+                                className="mt-1 accent-[#998357] cursor-pointer"
+                              />
+                              <span className="text-xs text-brand-text/80 font-light leading-relaxed group-hover:text-brand-text transition-colors">
+                                <strong className="font-semibold text-brand-text/90 mr-1">{index + 1}.</strong> {option}
+                              </span>
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Metgesel se dieetvereistes */}
+                      <div className="space-y-2 pt-2">
+                        <label htmlFor="partnerDietary" className="block text-xs uppercase tracking-[0.15em] text-brand-text/70 font-medium leading-relaxed">
+                          {t.form.partnerDietary}
+                        </label>
+                        <textarea 
+                          id="partnerDietary" 
+                          rows={2}
+                          value={formData.partnerDietary}
+                          onChange={(e) => setFormData({ ...formData, partnerDietary: e.target.value })}
+                          className="w-full border-b border-brand-text/20 bg-transparent py-2 focus:outline-none focus:border-brand-accent transition-colors font-light text-brand-text text-sm resize-none"
+                        ></textarea>
+                      </div>
+                    </>
+                  )}
+
                   {error && (
                     <p className="text-red-500 text-xs uppercase tracking-wider text-center pt-2">{error}</p>
                   )}
+
+                  {/* Dress code reminder */}
+                  <div className="border border-brand-accent/40 bg-brand-bg p-4 text-center">
+                    <p className="text-brand-text font-medium text-sm tracking-wide leading-relaxed">
+                      {t.form.dressCodeNote}
+                    </p>
+                  </div>
 
                   <button type="submit" className="w-full border border-brand-accent text-brand-text hover:bg-brand-accent hover:text-white transition-all duration-300 py-4 uppercase tracking-[0.2em] text-xs mt-8 font-medium">
                     {t.form.submit}

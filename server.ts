@@ -20,6 +20,8 @@ async function sendRsvpEmailNotification(data: {
   email?: string;
   mainCourse?: string;
   dietary?: string;
+  partnerMainCourse?: string;
+  partnerDietary?: string;
 }) {
   const recipients = ["ane.havenga@gmail.com"];
   
@@ -56,7 +58,13 @@ async function sendRsvpEmailNotification(data: {
         <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Selfoonnommer:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.cellphone}</td></tr>
         <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">E-pos:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.email || 'Nie verskaf nie'}</td></tr>
         <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Hoofgereg Keuse:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.mainCourse || 'Geen keuse gespesifiseer nie'}</td></tr>
-        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748;">Dieetvereistes:</td><td style="padding: 10px 12px; color: #2d3748;">${data.dietary || 'Geen'}</td></tr>
+        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Dieetvereistes:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.dietary || 'Geen'}</td></tr>
+        ${data.partnerName ? `
+        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Maat se Hoofgereg:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.partnerMainCourse || 'Geen keuse'}</td></tr>
+        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748;">Maat se Dieetvereistes:</td><td style="padding: 10px 12px; color: #2d3748;">${data.partnerDietary || 'Geen'}</td></tr>
+        ` : `
+        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748;">Maat se Naam:</td><td style="padding: 10px 12px; color: #2d3748;">Geen</td></tr>
+        `}
       </table>
       
       <p style="margin-top: 24px; font-size: 13px; color: #718096; border-top: 1px solid #edf2f7; padding-top: 12px;">Hierdie inligting is ook outomaties in die Google Sheet gestoor.</p>
@@ -183,7 +191,7 @@ app.get("/api/export-sheet", async (req, res) => {
     const spreadsheetId = getSpreadsheetId();
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: "A:H",
+      range: "A:I",
     });
     const rows = response.data.values || [];
     res.json({ success: true, rows, exportedAt: new Date().toISOString() });
@@ -224,7 +232,7 @@ function getSheetsClient() {
 
 // API routes
 app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
-  const { name, partnerName, cellphone, email, mainCourse, dietary } = req.body;
+  const { name, partnerName, cellphone, email, mainCourse, dietary, partnerMainCourse, partnerDietary } = req.body;
 
   if (!name || !cellphone) {
     return res.status(400).json({ error: "Naam en Selfoonnommer is verpligtend." });
@@ -270,14 +278,12 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
     const hasBoodskapHeader = headerRow.some((h: any) => h && h.toString().toLowerCase().includes("boodskap"));
 
     if (rows.length === 0) {
-      values.push(["Naam & Van", "Maat se Naam", "Selfoonnommer", "E-pos", "Hoofgereg", "Dieetvereistes", "Datum Stempel"]);
-      values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", timestamp]);
+      values.push(["Naam & Van", "Maat se Naam", "Selfoonnommer", "E-pos", "Hoofgereg", "Dieetvereistes", "Maat se Hoofgereg", "Maat se Dieetvereistes", "Datum Stempel"]);
+      values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", partnerMainCourse || "", partnerDietary || "", timestamp]);
     } else if (hasBoodskapHeader) {
-      // If the sheet still has "Boodskap" in row 1, keep blank for Boodskap so Datum Stempel aligns under Column H
-      values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", "", timestamp]);
+      values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", partnerMainCourse || "", partnerDietary || "", "", timestamp]);
     } else {
-      // Clean sheet without "Boodskap" column
-      values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", timestamp]);
+      values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", partnerMainCourse || "", partnerDietary || "", timestamp]);
     }
 
     await sheets.spreadsheets.values.append({
@@ -300,6 +306,8 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
         email,
         mainCourse,
         dietary,
+        partnerMainCourse,
+        partnerDietary,
       });
     } catch (emailErr) {
       console.error("[RSVP Email Error] Async email dispatch error:", emailErr);
