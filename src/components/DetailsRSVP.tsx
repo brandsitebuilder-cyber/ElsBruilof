@@ -4,6 +4,13 @@ import { content } from '../content';
 import { motion } from 'motion/react';
 import { MapPin, Navigation, Copy, Check, ExternalLink } from 'lucide-react';
 
+// Bold the word "swart" (case-insensitive) for dress-code emphasis
+function highlightSwart(text: string) {
+  return text.split(/(swart)/gi).map((part, i) =>
+    /swart/i.test(part) ? <strong key={i} className="font-bold">{part}</strong> : part
+  );
+}
+
 export default function DetailsRSVP() {
   const { language } = useLanguage();
   const t = content[language].details;
@@ -83,19 +90,19 @@ export default function DetailsRSVP() {
               <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
                 {t.attireSubtitle}
               </h3>
-              <h2 className="font-serif text-3xl md:text-4xl text-brand-text uppercase tracking-[0.15em] mb-8">
+              <h2 className="font-serif text-3xl md:text-4xl uppercase tracking-[0.15em] mb-8 inline-block bg-black text-brand-accent px-6 py-3">
                 {t.attireTitle}
               </h2>
               <div className="w-12 h-[1px] bg-brand-accent mb-12"></div>
               
               <p className="text-brand-text/80 font-normal mb-8 leading-[2] text-sm md:text-base tracking-wide">
-                {t.attireIntro}
+                {highlightSwart(t.attireIntro)}
               </p>
               <ul className="space-y-6 text-brand-text/70 font-light list-none">
                 {t.attireList.map((item, index) => (
                   <li key={index} className="flex items-start">
                     <span className="text-brand-accent mr-4 mt-1">✦</span>
-                    <span className="leading-[2] text-sm md:text-base tracking-wide">{item}</span>
+                    <span className="leading-[2] text-sm md:text-base tracking-wide">{highlightSwart(item)}</span>
                   </li>
                 ))}
               </ul>
@@ -109,7 +116,7 @@ export default function DetailsRSVP() {
                   loading="lazy"
                 />
                 <p className="text-center text-brand-text font-medium text-sm md:text-base tracking-wide mt-4 leading-relaxed">
-                  {t.attireReminder}
+                  {highlightSwart(t.attireReminder)}
                 </p>
               </div>
             </div>

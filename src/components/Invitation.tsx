@@ -69,7 +69,7 @@ export default function Invitation() {
               <svg className="w-3.5 h-3.5 fill-brand-accent text-brand-accent flex-shrink-0" viewBox="0 0 24 24">
                 <path d="M12 0C12 6.627 17.373 12 24 12C17.373 12 12 17.373 12 24C12 17.373 6.627 12 0 12C6.627 12 12 6.627 12 0Z" />
               </svg>
-              <span>KLEREDRAG: FORMELE ELEGANSIE ("BLACK TIE")</span>
+              <span>KLEREDRAG: SLEGS SWART</span>
             </div>
             {t.attireNote && (
               <p className="pl-6 text-xs md:text-sm text-brand-accent/90 italic tracking-wider font-light">

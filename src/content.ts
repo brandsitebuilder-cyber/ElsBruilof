@@ -34,15 +34,15 @@ export const content = {
       message: "Julle teenwoordigheid sal alles vir ons beteken wanneer ons voor mekaar ons geloftes aflê, ons geloof bely, en saam die toekoms instap.",
       datetime: "SATERDAG, 21 NOVEMBER 2026 — 15:30 VIR 16:00",
       venue: "LOCH LYNNE WYNLANDGOED, DURBANVILLE",
-      attire: "KLEREDRAG: FORMELE ELEGANSIE (\"BLACK TIE\").",
+      attire: "KLEREDRAG: SLEGS SWART.",
       attireNote: "Sien \"Kleredrag & RSVP vir meer inligting\"",
       closing: ""
     },
     details: {
       title: "Besonderhede & RSVP",
       attireSubtitle: "Kleredrag",
-      attireTitle: "Streng Formeel",
-      attireIntro: "Ons versoek u vriendelik om in formele elegansie te verskyn.",
+      attireTitle: "Slegs Swart",
+      attireIntro: "Ons versoek vriendelik dat ALLE gaste in SWART aantrek.",
       attireList: [
         "Vir mans: 'n swart pak.",
         "Vir dames: Swart formele aandrokke of verfynde swart skemerkelkiedrag.",
@@ -191,15 +191,15 @@ export const content = {
       message: "Julle teenwoordigheid sal alles vir ons beteken wanneer ons voor mekaar ons geloftes aflê, ons geloof bely, en saam die toekoms instap.",
       datetime: "SATERDAG, 21 NOVEMBER 2026 — 15:30 VIR 16:00",
       venue: "LOCH LYNNE WYNLANDGOED, DURBANVILLE",
-      attire: "KLEREDRAG: FORMELE ELEGANSIE (\"BLACK TIE\").",
+      attire: "KLEREDRAG: SLEGS SWART.",
       attireNote: "Sien \"Kleredrag & RSVP vir meer inligting\"",
       closing: ""
     },
     details: {
       title: "Besonderhede & RSVP",
       attireSubtitle: "Kleredrag",
-      attireTitle: "Streng Formeel",
-      attireIntro: "Ons versoek u vriendelik om in formele elegansie te verskyn.",
+      attireTitle: "Slegs Swart",
+      attireIntro: "Ons versoek vriendelik dat ALLE gaste in SWART aantrek.",
       attireList: [
         "Vir mans: 'n swart pak.",
         "Vir dames: Swart formele aandrokke of verfynde swart skemerkelkiedrag.",
