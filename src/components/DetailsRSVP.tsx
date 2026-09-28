@@ -87,7 +87,7 @@ export default function DetailsRSVP() {
             className="lg:col-span-5 lg:col-start-2 space-y-12"
           >
             <div>
-              <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
+              <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4 whitespace-pre-line">
                 {t.attireSubtitle}
               </h3>
               <h2 className="font-serif text-3xl md:text-4xl uppercase tracking-[0.15em] mb-8 inline-block bg-black text-brand-accent px-6 py-3">
