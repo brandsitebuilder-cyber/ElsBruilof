@@ -91,7 +91,7 @@ export default function DetailsRSVP() {
                 {t.attireSubtitle}
               </h3>
               <h2 className="font-serif text-3xl md:text-4xl uppercase tracking-[0.15em] mb-8 inline-block bg-black text-brand-accent px-6 py-3">
-                {t.attireTitle}
+                {highlightSwart(t.attireTitle)}
               </h2>
               <div className="w-12 h-[1px] bg-brand-accent mb-12"></div>
               
@@ -380,7 +380,7 @@ export default function DetailsRSVP() {
                   {/* Dress code reminder */}
                   <div className="border border-brand-accent/40 bg-brand-bg p-4 text-center">
                     <p className="text-brand-text font-medium text-sm tracking-wide leading-relaxed">
-                      {t.form.dressCodeNote}
+                      {highlightSwart(t.form.dressCodeNote)}
                     </p>
                   </div>
 
