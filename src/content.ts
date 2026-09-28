@@ -40,8 +40,8 @@ export const content = {
     },
     details: {
       title: "Besonderhede & RSVP",
-      attireSubtitle: "Kleredrag",
-      attireTitle: "Slegs Swart",
+      attireSubtitle: "Kleredrag — Streng Formeel",
+      attireTitle: "Kleur: Slegs Swart",
       attireIntro: "Ons versoek vriendelik dat ALLE gaste in SWART aantrek.",
       attireList: [
         "Vir mans: 'n swart pak.",
@@ -197,8 +197,8 @@ export const content = {
     },
     details: {
       title: "Besonderhede & RSVP",
-      attireSubtitle: "Kleredrag",
-      attireTitle: "Slegs Swart",
+      attireSubtitle: "Kleredrag — Streng Formeel",
+      attireTitle: "Kleur: Slegs Swart",
       attireIntro: "Ons versoek vriendelik dat ALLE gaste in SWART aantrek.",
       attireList: [
         "Vir mans: 'n swart pak.",
