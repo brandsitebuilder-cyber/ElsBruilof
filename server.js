@@ -10,7 +10,11 @@ var app = express();
 var PORT = Number(process.env.PORT) || 3e3;
 app.use(express.json());
 async function sendRsvpEmailNotification(data) {
-  const recipients = ["ane.havenga@gmail.com"];
+  const recipients = (process.env.RSVP_NOTIFY_TO || "ane.havenga@gmail.com").split(",").map((r) => r.trim()).filter(Boolean);
+  if (process.env.RSVP_MAIL_DISABLED === "1") {
+    console.log(`[RSVP Email Info] Mail disabled for this deployment (RSVP_MAIL_DISABLED=1); notification for ${data.name} was not sent. Intended recipients: ${recipients.join(", ")}`);
+    return;
+  }
   let user = process.env.GMAIL_USER;
   if (!user && process.env.SMTP_USER && !process.env.SMTP_USER.includes("gserviceaccount.com")) {
     user = process.env.SMTP_USER;
@@ -84,16 +88,16 @@ async function sendRsvpEmailNotification(data) {
   }
 }
 function getSpreadsheetId() {
-  const envId = process.env.GOOGLE_SHEET_ID;
+  const isNonProdDeployment = process.env.VERCEL_ENV === "preview" || process.env.VERCEL_ENV === "development";
+  const envId = isNonProdDeployment ? process.env.GOOGLE_SHEET_ID_PREVIEW : process.env.GOOGLE_SHEET_ID;
   const legacyIds = [
     "1ab6Vxegpp9OluuudsixHLjJ8x0ScoCh1BcYWbfco0l8",
     "1bxb4-dZ-l4eh95BOgopABS540pSOd2pksmGz2kiz4o0"
   ];
   const targetId = "1-fLmwp_g9g4DlA3MdhRWgWCoGYY2vzNp6GTKVAknkFg";
   if (!envId || legacyIds.includes(envId)) {
-    const isProduction = process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production";
-    if (process.env.VERCEL && !isProduction) {
-      throw new Error("GOOGLE_SHEET_ID is not set for this non-production deployment - refusing to fall back to the live guest sheet. Set GOOGLE_SHEET_ID to the test sheet in the Vercel Preview environment.");
+    if (isNonProdDeployment) {
+      throw new Error("GOOGLE_SHEET_ID_PREVIEW is not set for this preview deployment - refusing to fall back to the live guest sheet. Set GOOGLE_SHEET_ID_PREVIEW to the test sheet in the Vercel Preview environment.");
     }
     return targetId;
   }
@@ -110,7 +114,9 @@ app.get("/api/health", (req, res) => {
       sheetId: getSpreadsheetId(),
       hasEmail: !!process.env.GOOGLE_CLIENT_EMAIL,
       serviceAccountEmail: process.env.GOOGLE_CLIENT_EMAIL || "Not configured",
-      hasKey: !!process.env.GOOGLE_PRIVATE_KEY
+      hasKey: !!process.env.GOOGLE_PRIVATE_KEY,
+      mailDisabled: process.env.RSVP_MAIL_DISABLED === "1",
+      notifyTo: process.env.RSVP_NOTIFY_TO || "ane.havenga@gmail.com"
     }
   });
 });
@@ -267,7 +273,9 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
     console.error("Google Sheets Error:", error?.message || error);
     const details = error?.message || "Unknown error";
     let userMsg = "Iets het foutgegaan met die stoor van u RSVP. Probeer asseblief later weer.";
-    if (details.includes("missing") || details.includes("credentials")) {
+    if (details.includes("GOOGLE_SHEET_ID_PREVIEW")) {
+      userMsg = "Hierdie is 'n toets-ontplooiing sonder 'n toets-sigblad. RSVP's word nie gestoor nie.";
+    } else if (details.includes("missing") || details.includes("credentials")) {
       userMsg = "Bedienerkonfigurasie vir Google Sheets ontbreek (GOOGLE_CLIENT_EMAIL / GOOGLE_PRIVATE_KEY).";
     } else if (details.includes("403") || details.includes("permission") || details.includes("Permission denied")) {
       userMsg = "Geen redigeer-regte op die Google Sheet nie. Maak seker die diensrekening het 'Editor' toegang.";

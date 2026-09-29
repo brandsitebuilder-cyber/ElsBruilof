@@ -25,8 +25,19 @@ async function sendRsvpEmailNotification(data: {
   partnerActive?: boolean;
   attendanceText?: string;
 }) {
-  const recipients = ["ane.havenga@gmail.com"];
-  
+  // Who gets notified. A test/preview deployment sets RSVP_NOTIFY_TO to a dummy
+  // address so a rehearsal RSVP can never land in the couple's inbox.
+  const recipients = (process.env.RSVP_NOTIFY_TO || "ane.havenga@gmail.com")
+    .split(",")
+    .map((r) => r.trim())
+    .filter(Boolean);
+
+  // Hard kill switch for non-live deployments: no SMTP attempt at all.
+  if (process.env.RSVP_MAIL_DISABLED === "1") {
+    console.log(`[RSVP Email Info] Mail disabled for this deployment (RSVP_MAIL_DISABLED=1); notification for ${data.name} was not sent. Intended recipients: ${recipients.join(", ")}`);
+    return;
+  }
+
   // Prefer explicit Gmail credentials over service account env variables
   let user = process.env.GMAIL_USER;
   if (!user && process.env.SMTP_USER && !process.env.SMTP_USER.includes("gserviceaccount.com")) {
@@ -111,19 +122,19 @@ async function sendRsvpEmailNotification(data: {
 
 // Helper function to get target Google Sheet ID (overrides legacy sheet IDs)
 function getSpreadsheetId(): string {
-  const envId = process.env.GOOGLE_SHEET_ID;
+  // A preview or development deployment must never be able to write into the live
+  // guest sheet, even though GOOGLE_SHEET_ID is shared with production. Such a
+  // deployment reads its own variable and fails loudly when that one is missing.
+  const isNonProdDeployment = process.env.VERCEL_ENV === "preview" || process.env.VERCEL_ENV === "development";
+  const envId = isNonProdDeployment ? process.env.GOOGLE_SHEET_ID_PREVIEW : process.env.GOOGLE_SHEET_ID;
   const legacyIds = [
     "1ab6Vxegpp9OluuudsixHLjJ8x0ScoCh1BcYWbfco0l8",
     "1bxb4-dZ-l4eh95BOgopABS540pSOd2pksmGz2kiz4o0"
   ];
   const targetId = "1-fLmwp_g9g4DlA3MdhRWgWCoGYY2vzNp6GTKVAknkFg";
   if (!envId || legacyIds.includes(envId)) {
-    // Safety rail: only a production deployment may fall back to the live guest
-    // sheet. Any preview/test build without an explicit GOOGLE_SHEET_ID must fail
-    // loudly instead of writing real guests into the live sheet.
-    const isProduction = process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production";
-    if (process.env.VERCEL && !isProduction) {
-      throw new Error("GOOGLE_SHEET_ID is not set for this non-production deployment - refusing to fall back to the live guest sheet. Set GOOGLE_SHEET_ID to the test sheet in the Vercel Preview environment.");
+    if (isNonProdDeployment) {
+      throw new Error("GOOGLE_SHEET_ID_PREVIEW is not set for this preview deployment - refusing to fall back to the live guest sheet. Set GOOGLE_SHEET_ID_PREVIEW to the test sheet in the Vercel Preview environment.");
     }
     return targetId;
   }
@@ -144,7 +155,9 @@ app.get("/api/health", (req, res) => {
       sheetId: getSpreadsheetId(),
       hasEmail: !!process.env.GOOGLE_CLIENT_EMAIL,
       serviceAccountEmail: process.env.GOOGLE_CLIENT_EMAIL || "Not configured",
-      hasKey: !!process.env.GOOGLE_PRIVATE_KEY
+      hasKey: !!process.env.GOOGLE_PRIVATE_KEY,
+      mailDisabled: process.env.RSVP_MAIL_DISABLED === "1",
+      notifyTo: process.env.RSVP_NOTIFY_TO || "ane.havenga@gmail.com"
     }
   });
 });
@@ -345,7 +358,9 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
     const details = error?.message || "Unknown error";
     let userMsg = "Iets het foutgegaan met die stoor van u RSVP. Probeer asseblief later weer.";
     
-    if (details.includes("missing") || details.includes("credentials")) {
+    if (details.includes("GOOGLE_SHEET_ID_PREVIEW")) {
+      userMsg = "Hierdie is 'n toets-ontplooiing sonder 'n toets-sigblad. RSVP's word nie gestoor nie.";
+    } else if (details.includes("missing") || details.includes("credentials")) {
       userMsg = "Bedienerkonfigurasie vir Google Sheets ontbreek (GOOGLE_CLIENT_EMAIL / GOOGLE_PRIVATE_KEY).";
     } else if (details.includes("403") || details.includes("permission") || details.includes("Permission denied")) {
       userMsg = "Geen redigeer-regte op die Google Sheet nie. Maak seker die diensrekening het 'Editor' toegang.";
