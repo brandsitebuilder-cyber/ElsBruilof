@@ -22,6 +22,8 @@ async function sendRsvpEmailNotification(data: {
   dietary?: string;
   partnerMainCourse?: string;
   partnerDietary?: string;
+  partnerActive?: boolean;
+  attendanceText?: string;
 }) {
   const recipients = ["ane.havenga@gmail.com"];
   
@@ -54,17 +56,16 @@ async function sendRsvpEmailNotification(data: {
       
       <table style="width: 100%; border-collapse: collapse; margin-top: 18px; margin-bottom: 18px;">
         <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; width: 40%; border-bottom: 1px solid #edf2f7;">Naam & Van:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.name}</td></tr>
-        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Maat se Naam:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.partnerName || 'Geen'}</td></tr>
-        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Selfoonnommer:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.cellphone}</td></tr>
-        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">E-pos:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.email || 'Nie verskaf nie'}</td></tr>
-        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Hoofgereg Keuse:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.mainCourse || 'Geen keuse gespesifiseer nie'}</td></tr>
-        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Dieetvereistes:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.dietary || 'Geen'}</td></tr>
-        ${data.partnerName ? `
-        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Maat se Hoofgereg:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.partnerMainCourse || 'Geen keuse'}</td></tr>
-        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748;">Maat se Dieetvereistes:</td><td style="padding: 10px 12px; color: #2d3748;">${data.partnerDietary || 'Geen'}</td></tr>
-        ` : `
-        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748;">Maat se Naam:</td><td style="padding: 10px 12px; color: #2d3748;">Geen</td></tr>
-        `}
+        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Bywoning:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.attendanceText || 'Alleen'}</td></tr>
+        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Maat se Naam:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.partnerName || 'Geen'}</td></tr>
+        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Selfoonnommer:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.cellphone}</td></tr>
+        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">E-pos:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.email || 'Nie verskaf nie'}</td></tr>
+        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Hoofgereg Keuse:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.mainCourse || 'Geen keuse gespesifiseer nie'}</td></tr>
+        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Dieetvereistes:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.dietary || 'Geen'}</td></tr>
+        ${data.partnerActive ? `
+        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Maat se Hoofgereg:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.partnerMainCourse || 'Geen keuse'}</td></tr>
+        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748;">Maat se Dieetvereistes:</td><td style="padding: 10px 12px; color: #2d3748;">${data.partnerDietary || 'Geen'}</td></tr>
+        ` : ''}
       </table>
       
       <p style="margin-top: 24px; font-size: 13px; color: #718096; border-top: 1px solid #edf2f7; padding-top: 12px;">Hierdie inligting is ook outomaties in die Google Sheet gestoor.</p>
@@ -117,6 +118,13 @@ function getSpreadsheetId(): string {
   ];
   const targetId = "1-fLmwp_g9g4DlA3MdhRWgWCoGYY2vzNp6GTKVAknkFg";
   if (!envId || legacyIds.includes(envId)) {
+    // Safety rail: only a production deployment may fall back to the live guest
+    // sheet. Any preview/test build without an explicit GOOGLE_SHEET_ID must fail
+    // loudly instead of writing real guests into the live sheet.
+    const isProduction = process.env.VERCEL_ENV === "production" || process.env.NODE_ENV === "production";
+    if (process.env.VERCEL && !isProduction) {
+      throw new Error("GOOGLE_SHEET_ID is not set for this non-production deployment - refusing to fall back to the live guest sheet. Set GOOGLE_SHEET_ID to the test sheet in the Vercel Preview environment.");
+    }
     return targetId;
   }
   return envId;
@@ -232,10 +240,26 @@ function getSheetsClient() {
 
 // API routes
 app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
-  const { name, partnerName, cellphone, email, mainCourse, dietary, partnerMainCourse, partnerDietary } = req.body;
+  const { name, partnerName, cellphone, email, mainCourse, dietary, partnerMainCourse, partnerDietary, attendance } = req.body;
 
   if (!name || !cellphone) {
     return res.status(400).json({ error: "Naam en Selfoonnommer is verpligtend." });
+  }
+
+  // The guest states whether they are coming alone or bringing a partner. A guest
+  // on a cached bundle sends no `attendance` field at all, so fall back to the old
+  // rule (a filled partner name meant a partner is eating). An explicit "alone"
+  // always wins and drops whatever partner details were captured before.
+  const partnerActive = attendance === "withPartner"
+    || (attendance === undefined && !!(partnerName && partnerName.trim() !== ""));
+
+  const safePartnerName = partnerActive ? (partnerName || "") : "";
+  const safePartnerMainCourse = partnerActive ? (partnerMainCourse || "") : "";
+  const safePartnerDietary = partnerActive ? (partnerDietary || "") : "";
+  const attendanceText = partnerActive ? "Met metgesel" : "Alleen";
+
+  if (attendance === "withPartner" && (!safePartnerName || !safePartnerMainCourse)) {
+    return res.status(400).json({ error: "Vul asseblief die metgesel se naam en hoofgereg in." });
   }
 
   // Normalize cellphone for duplicate checking (remove spaces and non-digits)
@@ -279,11 +303,11 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
 
     if (rows.length === 0) {
       values.push(["Naam & Van", "Maat se Naam", "Selfoonnommer", "E-pos", "Hoofgereg", "Dieetvereistes", "Maat se Hoofgereg", "Maat se Dieetvereistes", "Datum Stempel"]);
-      values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", partnerMainCourse || "", partnerDietary || "", timestamp]);
+      values.push([name, safePartnerName, formattedPhone, email || "", mainCourse || "", dietary || "", safePartnerMainCourse, safePartnerDietary, timestamp]);
     } else if (hasBoodskapHeader) {
-      values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", partnerMainCourse || "", partnerDietary || "", "", timestamp]);
+      values.push([name, safePartnerName, formattedPhone, email || "", mainCourse || "", dietary || "", safePartnerMainCourse, safePartnerDietary, "", timestamp]);
     } else {
-      values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", partnerMainCourse || "", partnerDietary || "", timestamp]);
+      values.push([name, safePartnerName, formattedPhone, email || "", mainCourse || "", dietary || "", safePartnerMainCourse, safePartnerDietary, timestamp]);
     }
 
     await sheets.spreadsheets.values.append({
@@ -295,19 +319,21 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
       },
     });
 
-    console.log(`[RSVP Success] Appended entry for ${name} (${cellphone})`);
+    console.log(`[RSVP Success] Appended entry for ${name} (${cellphone}) - ${attendanceText}`);
     
     // Send email notification (awaited — must complete before response on Vercel serverless)
     try {
       await sendRsvpEmailNotification({
         name,
-        partnerName,
+        partnerName: safePartnerName,
         cellphone,
         email,
         mainCourse,
         dietary,
-        partnerMainCourse,
-        partnerDietary,
+        partnerMainCourse: safePartnerMainCourse,
+        partnerDietary: safePartnerDietary,
+        partnerActive,
+        attendanceText,
       });
     } catch (emailErr) {
       console.error("[RSVP Email Error] Async email dispatch error:", emailErr);
