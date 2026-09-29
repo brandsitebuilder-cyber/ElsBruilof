@@ -22,9 +22,22 @@ async function sendRsvpEmailNotification(data: {
   dietary?: string;
   partnerMainCourse?: string;
   partnerDietary?: string;
+  partnerActive?: boolean;
+  attendanceText?: string;
 }) {
-  const recipients = ["ane.havenga@gmail.com"];
-  
+  // Who gets notified. A test/preview deployment sets RSVP_NOTIFY_TO to a dummy
+  // address so a rehearsal RSVP can never land in the couple's inbox.
+  const recipients = (process.env.RSVP_NOTIFY_TO || "ane.havenga@gmail.com")
+    .split(",")
+    .map((r) => r.trim())
+    .filter(Boolean);
+
+  // Hard kill switch for non-live deployments: no SMTP attempt at all.
+  if (process.env.RSVP_MAIL_DISABLED === "1") {
+    console.log(`[RSVP Email Info] Mail disabled for this deployment (RSVP_MAIL_DISABLED=1); notification for ${data.name} was not sent. Intended recipients: ${recipients.join(", ")}`);
+    return;
+  }
+
   // Prefer explicit Gmail credentials over service account env variables
   let user = process.env.GMAIL_USER;
   if (!user && process.env.SMTP_USER && !process.env.SMTP_USER.includes("gserviceaccount.com")) {
@@ -54,17 +67,16 @@ async function sendRsvpEmailNotification(data: {
       
       <table style="width: 100%; border-collapse: collapse; margin-top: 18px; margin-bottom: 18px;">
         <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; width: 40%; border-bottom: 1px solid #edf2f7;">Naam & Van:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.name}</td></tr>
-        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Maat se Naam:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.partnerName || 'Geen'}</td></tr>
-        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Selfoonnommer:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.cellphone}</td></tr>
-        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">E-pos:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.email || 'Nie verskaf nie'}</td></tr>
-        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Hoofgereg Keuse:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.mainCourse || 'Geen keuse gespesifiseer nie'}</td></tr>
-        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Dieetvereistes:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.dietary || 'Geen'}</td></tr>
-        ${data.partnerName ? `
-        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Maat se Hoofgereg:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.partnerMainCourse || 'Geen keuse'}</td></tr>
-        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748;">Maat se Dieetvereistes:</td><td style="padding: 10px 12px; color: #2d3748;">${data.partnerDietary || 'Geen'}</td></tr>
-        ` : `
-        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748;">Maat se Naam:</td><td style="padding: 10px 12px; color: #2d3748;">Geen</td></tr>
-        `}
+        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Bywoning:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.attendanceText || 'Alleen'}</td></tr>
+        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Maat se Naam:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.partnerName || 'Geen'}</td></tr>
+        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Selfoonnommer:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.cellphone}</td></tr>
+        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">E-pos:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.email || 'Nie verskaf nie'}</td></tr>
+        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Hoofgereg Keuse:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.mainCourse || 'Geen keuse gespesifiseer nie'}</td></tr>
+        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Dieetvereistes:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.dietary || 'Geen'}</td></tr>
+        ${data.partnerActive ? `
+        <tr><td style="padding: 10px 12px; font-weight: bold; color: #2d3748; border-bottom: 1px solid #edf2f7;">Maat se Hoofgereg:</td><td style="padding: 10px 12px; color: #2d3748; border-bottom: 1px solid #edf2f7;">${data.partnerMainCourse || 'Geen keuse'}</td></tr>
+        <tr style="background-color: #f7fafc;"><td style="padding: 10px 12px; font-weight: bold; color: #2d3748;">Maat se Dieetvereistes:</td><td style="padding: 10px 12px; color: #2d3748;">${data.partnerDietary || 'Geen'}</td></tr>
+        ` : ''}
       </table>
       
       <p style="margin-top: 24px; font-size: 13px; color: #718096; border-top: 1px solid #edf2f7; padding-top: 12px;">Hierdie inligting is ook outomaties in die Google Sheet gestoor.</p>
@@ -110,13 +122,20 @@ async function sendRsvpEmailNotification(data: {
 
 // Helper function to get target Google Sheet ID (overrides legacy sheet IDs)
 function getSpreadsheetId(): string {
-  const envId = process.env.GOOGLE_SHEET_ID;
+  // A preview or development deployment must never be able to write into the live
+  // guest sheet, even though GOOGLE_SHEET_ID is shared with production. Such a
+  // deployment reads its own variable and fails loudly when that one is missing.
+  const isNonProdDeployment = process.env.VERCEL_ENV === "preview" || process.env.VERCEL_ENV === "development";
+  const envId = isNonProdDeployment ? process.env.GOOGLE_SHEET_ID_PREVIEW : process.env.GOOGLE_SHEET_ID;
   const legacyIds = [
     "1ab6Vxegpp9OluuudsixHLjJ8x0ScoCh1BcYWbfco0l8",
     "1bxb4-dZ-l4eh95BOgopABS540pSOd2pksmGz2kiz4o0"
   ];
   const targetId = "1-fLmwp_g9g4DlA3MdhRWgWCoGYY2vzNp6GTKVAknkFg";
   if (!envId || legacyIds.includes(envId)) {
+    if (isNonProdDeployment) {
+      throw new Error("GOOGLE_SHEET_ID_PREVIEW is not set for this preview deployment - refusing to fall back to the live guest sheet. Set GOOGLE_SHEET_ID_PREVIEW to the test sheet in the Vercel Preview environment.");
+    }
     return targetId;
   }
   return envId;
@@ -136,7 +155,9 @@ app.get("/api/health", (req, res) => {
       sheetId: getSpreadsheetId(),
       hasEmail: !!process.env.GOOGLE_CLIENT_EMAIL,
       serviceAccountEmail: process.env.GOOGLE_CLIENT_EMAIL || "Not configured",
-      hasKey: !!process.env.GOOGLE_PRIVATE_KEY
+      hasKey: !!process.env.GOOGLE_PRIVATE_KEY,
+      mailDisabled: process.env.RSVP_MAIL_DISABLED === "1",
+      notifyTo: process.env.RSVP_NOTIFY_TO || "ane.havenga@gmail.com"
     }
   });
 });
@@ -232,10 +253,26 @@ function getSheetsClient() {
 
 // API routes
 app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
-  const { name, partnerName, cellphone, email, mainCourse, dietary, partnerMainCourse, partnerDietary } = req.body;
+  const { name, partnerName, cellphone, email, mainCourse, dietary, partnerMainCourse, partnerDietary, attendance } = req.body;
 
   if (!name || !cellphone) {
     return res.status(400).json({ error: "Naam en Selfoonnommer is verpligtend." });
+  }
+
+  // The guest states whether they are coming alone or bringing a partner. A guest
+  // on a cached bundle sends no `attendance` field at all, so fall back to the old
+  // rule (a filled partner name meant a partner is eating). An explicit "alone"
+  // always wins and drops whatever partner details were captured before.
+  const partnerActive = attendance === "withPartner"
+    || (attendance === undefined && !!(partnerName && partnerName.trim() !== ""));
+
+  const safePartnerName = partnerActive ? (partnerName || "") : "";
+  const safePartnerMainCourse = partnerActive ? (partnerMainCourse || "") : "";
+  const safePartnerDietary = partnerActive ? (partnerDietary || "") : "";
+  const attendanceText = partnerActive ? "Met metgesel" : "Alleen";
+
+  if (attendance === "withPartner" && (!safePartnerName || !safePartnerMainCourse)) {
+    return res.status(400).json({ error: "Vul asseblief die metgesel se naam en hoofgereg in." });
   }
 
   // Normalize cellphone for duplicate checking (remove spaces and non-digits)
@@ -279,11 +316,11 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
 
     if (rows.length === 0) {
       values.push(["Naam & Van", "Maat se Naam", "Selfoonnommer", "E-pos", "Hoofgereg", "Dieetvereistes", "Maat se Hoofgereg", "Maat se Dieetvereistes", "Datum Stempel"]);
-      values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", partnerMainCourse || "", partnerDietary || "", timestamp]);
+      values.push([name, safePartnerName, formattedPhone, email || "", mainCourse || "", dietary || "", safePartnerMainCourse, safePartnerDietary, timestamp]);
     } else if (hasBoodskapHeader) {
-      values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", partnerMainCourse || "", partnerDietary || "", "", timestamp]);
+      values.push([name, safePartnerName, formattedPhone, email || "", mainCourse || "", dietary || "", safePartnerMainCourse, safePartnerDietary, "", timestamp]);
     } else {
-      values.push([name, partnerName || "", formattedPhone, email || "", mainCourse || "", dietary || "", partnerMainCourse || "", partnerDietary || "", timestamp]);
+      values.push([name, safePartnerName, formattedPhone, email || "", mainCourse || "", dietary || "", safePartnerMainCourse, safePartnerDietary, timestamp]);
     }
 
     await sheets.spreadsheets.values.append({
@@ -295,19 +332,21 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
       },
     });
 
-    console.log(`[RSVP Success] Appended entry for ${name} (${cellphone})`);
+    console.log(`[RSVP Success] Appended entry for ${name} (${cellphone}) - ${attendanceText}`);
     
     // Send email notification (awaited — must complete before response on Vercel serverless)
     try {
       await sendRsvpEmailNotification({
         name,
-        partnerName,
+        partnerName: safePartnerName,
         cellphone,
         email,
         mainCourse,
         dietary,
-        partnerMainCourse,
-        partnerDietary,
+        partnerMainCourse: safePartnerMainCourse,
+        partnerDietary: safePartnerDietary,
+        partnerActive,
+        attendanceText,
       });
     } catch (emailErr) {
       console.error("[RSVP Email Error] Async email dispatch error:", emailErr);
@@ -319,7 +358,9 @@ app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
     const details = error?.message || "Unknown error";
     let userMsg = "Iets het foutgegaan met die stoor van u RSVP. Probeer asseblief later weer.";
     
-    if (details.includes("missing") || details.includes("credentials")) {
+    if (details.includes("GOOGLE_SHEET_ID_PREVIEW")) {
+      userMsg = "Hierdie is 'n toets-ontplooiing sonder 'n toets-sigblad. RSVP's word nie gestoor nie.";
+    } else if (details.includes("missing") || details.includes("credentials")) {
       userMsg = "Bedienerkonfigurasie vir Google Sheets ontbreek (GOOGLE_CLIENT_EMAIL / GOOGLE_PRIVATE_KEY).";
     } else if (details.includes("403") || details.includes("permission") || details.includes("Permission denied")) {
       userMsg = "Geen redigeer-regte op die Google Sheet nie. Maak seker die diensrekening het 'Editor' toegang.";

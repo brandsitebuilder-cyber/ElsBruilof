@@ -55,9 +55,14 @@ export const content = {
       thankYou: "Dankie",
       form: {
         name: "Volle Naam",
-        partnerName: "Naam van metgesel (slegs indien u uitnodiging 'n metgesel insluit)",
+        partnerName: "Naam van metgesel",
         cellphone: "Selfoonnommer",
         email: "E-pos",
+        attendanceLabel: "Bywoning",
+        attendanceAlone: "Ek kom alleen",
+        attendanceWithPartner: "Ek bring 'n metgesel",
+        guestMainCourseLabel: "U hoofgereg-keuse",
+        guestDietaryLabel: "U allergieë / dieetvereistes",
         mainCourseLabel: "Hoofgereg-keuse en dieetvereistes",
         mainCourseOptions: [
           "Italiaanse \"Beef\" repies, aartappelgnocchi, truffelsampioensous, gesmoorde groente in chimichurri, en botterskorsie-skyfies.",
@@ -212,9 +217,14 @@ export const content = {
       thankYou: "Dankie",
       form: {
         name: "Volle Naam",
-        partnerName: "Naam van metgesel (slegs indien u uitnodiging 'n metgesel insluit)",
+        partnerName: "Naam van metgesel",
         cellphone: "Selfoonnommer",
         email: "E-pos",
+        attendanceLabel: "Bywoning",
+        attendanceAlone: "Ek kom alleen",
+        attendanceWithPartner: "Ek bring 'n metgesel",
+        guestMainCourseLabel: "U hoofgereg-keuse",
+        guestDietaryLabel: "U allergieë / dieetvereistes",
         mainCourseLabel: "Hoofgereg-keuse en dieetvereistes",
         mainCourseOptions: [
           "Italiaanse \"Beef\" repies, aartappelgnocchi, truffelsampioensous, gesmoorde groente in chimichurri, en botterskorsie-skyfies.",

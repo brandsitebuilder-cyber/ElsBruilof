@@ -11,22 +11,42 @@ function highlightSwart(text: string) {
   );
 }
 
+type Attendance = '' | 'alone' | 'withPartner';
+
+type RsvpForm = {
+  attendance: Attendance;
+  name: string;
+  partnerName: string;
+  cellphone: string;
+  email: string;
+  mainCourse: string;
+  dietary: string;
+  partnerMainCourse: string;
+  partnerDietary: string;
+};
+
+// Single source of truth for a blank form: used for the initial state and the
+// "submit another RSVP" reset, so a new field can never be forgotten in one place.
+const emptyForm: RsvpForm = {
+  attendance: '',
+  name: '',
+  partnerName: '',
+  cellphone: '',
+  email: '',
+  mainCourse: '',
+  dietary: '',
+  partnerMainCourse: '',
+  partnerDietary: ''
+};
+
 export default function DetailsRSVP() {
   const { language } = useLanguage();
   const t = content[language].details;
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copiedAddress, setCopiedAddress] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    partnerName: '',
-    cellphone: '',
-    email: '',
-    mainCourse: '',
-    dietary: '',
-    partnerMainCourse: '',
-    partnerDietary: ''
-  });
+  const [formData, setFormData] = useState<RsvpForm>(emptyForm);
 
   const handleCopyAddress = () => {
     navigator.clipboard.writeText('Loch Lynne Wine Estate, Koeberg Rd, Durbanville, Cape Town, 7550');
@@ -36,7 +56,9 @@ export default function DetailsRSVP() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
     setError(null);
+    setIsSubmitting(true);
 
     try {
       const response = await fetch('/api/rsvp', {
@@ -65,12 +87,22 @@ export default function DetailsRSVP() {
     } catch (err) {
       console.error("RSVP Error:", err);
       setError(t.form.networkError);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleCellphoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/\D/g, '');
     setFormData({ ...formData, cellphone: value });
+  };
+
+  // "Ek kom alleen" clears anything already captured for a partner, so a phantom
+  // partner meal can never be submitted or emailed for a solo guest.
+  const updateAttendance = (value: Attendance) => {
+    setFormData(prev => value === 'alone'
+      ? { ...prev, attendance: value, partnerName: '', partnerMainCourse: '', partnerDietary: '' }
+      : { ...prev, attendance: value });
   };
 
   return (
@@ -201,16 +233,7 @@ export default function DetailsRSVP() {
                   <button
                     onClick={() => {
                       setIsSubmitted(false);
-                      setFormData({
-                        name: '',
-                        partnerName: '',
-                        cellphone: '',
-                        email: '',
-                        mainCourse: '',
-                        dietary: '',
-                        partnerMainCourse: '',
-                        partnerDietary: ''
-                      });
+                      setFormData(emptyForm);
                     }}
                     className="mt-8 text-xs uppercase tracking-widest text-brand-accent hover:underline font-light block mx-auto transition-all"
                   >
@@ -247,20 +270,6 @@ export default function DetailsRSVP() {
                     />
                   </div>
 
-                  {/* Naam van metgesel */}
-                  <div className="space-y-2">
-                    <label htmlFor="partnerName" className="block text-xs uppercase tracking-[0.15em] text-brand-text/70 font-medium leading-relaxed">
-                      {t.form.partnerName}
-                    </label>
-                    <input 
-                      type="text" 
-                      id="partnerName" 
-                      value={formData.partnerName}
-                      onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
-                      className="w-full border-b border-brand-text/20 bg-transparent py-2 focus:outline-none focus:border-brand-accent transition-colors font-light text-brand-text text-sm" 
-                    />
-                  </div>
-
                   {/* Selfoonnommer */}
                   <div className="space-y-2">
                     <label htmlFor="cellphone" className="block text-xs uppercase tracking-[0.15em] text-brand-text/70 font-medium">
@@ -291,10 +300,38 @@ export default function DetailsRSVP() {
                     />
                   </div>
 
+                  {/* Bywoning: alleen of met 'n metgesel */}
+                  <div className="space-y-3 pt-2">
+                    <label className="block text-xs uppercase tracking-[0.15em] text-brand-text/70 font-medium leading-relaxed">
+                      {t.form.attendanceLabel} <span className="text-brand-accent">*</span>
+                    </label>
+                    <div className="space-y-3">
+                      {([
+                        { value: 'alone' as Attendance, label: t.form.attendanceAlone },
+                        { value: 'withPartner' as Attendance, label: t.form.attendanceWithPartner }
+                      ]).map((option) => (
+                        <label key={option.value} className="flex items-start space-x-3 cursor-pointer group">
+                          <input 
+                            type="radio" 
+                            name="attendance"
+                            required
+                            value={option.value}
+                            checked={formData.attendance === option.value}
+                            onChange={() => updateAttendance(option.value)}
+                            className="mt-1 accent-[#998357] cursor-pointer"
+                          />
+                          <span className="text-xs text-brand-text/80 font-light leading-relaxed group-hover:text-brand-text transition-colors">
+                            {option.label}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
                   {/* U hoofgereg-keuse */}
                   <div className="space-y-3 pt-2">
                     <label className="block text-xs uppercase tracking-[0.15em] text-brand-text/70 font-medium leading-relaxed">
-                      {formData.partnerName ? 'U hoofgereg-keuse' : t.form.mainCourseLabel} <span className="text-brand-accent">*</span>
+                      {formData.attendance === 'withPartner' ? t.form.guestMainCourseLabel : t.form.mainCourseLabel} <span className="text-brand-accent">*</span>
                     </label>
                     <div className="space-y-3">
                       {t.form.mainCourseOptions.map((option, index) => (
@@ -316,10 +353,10 @@ export default function DetailsRSVP() {
                     </div>
                   </div>
 
-                  {/* U dieetvereistes */}
+                  {/* Dieetvereistes */}
                   <div className="space-y-2 pt-2">
                     <label htmlFor="dietary" className="block text-xs uppercase tracking-[0.15em] text-brand-text/70 font-medium leading-relaxed">
-                      {formData.partnerName ? 'U allergieë / dieetvereistes' : t.form.dietary}
+                      {formData.attendance === 'withPartner' ? t.form.guestDietaryLabel : t.form.dietary}
                     </label>
                     <textarea 
                       id="dietary" 
@@ -330,9 +367,23 @@ export default function DetailsRSVP() {
                     ></textarea>
                   </div>
 
-                  {/* Metgesel se hoofgereg-keuse — shown only when partnerName is filled */}
-                  {formData.partnerName.trim() !== '' && (
+                  {/* Metgesel se besonderhede — slegs wanneer "Ek bring 'n metgesel" gekies is */}
+                  {formData.attendance === 'withPartner' && (
                     <>
+                      <div className="border-t border-brand-accent/20 pt-6 mt-4 space-y-2">
+                        <label htmlFor="partnerName" className="block text-xs uppercase tracking-[0.15em] text-brand-text/70 font-medium leading-relaxed">
+                          {t.form.partnerName} <span className="text-brand-accent">*</span>
+                        </label>
+                        <input 
+                          type="text" 
+                          id="partnerName" 
+                          required
+                          value={formData.partnerName}
+                          onChange={(e) => setFormData({ ...formData, partnerName: e.target.value })}
+                          className="w-full border-b border-brand-text/20 bg-transparent py-2 focus:outline-none focus:border-brand-accent transition-colors font-light text-brand-text text-sm" 
+                        />
+                      </div>
+
                       <div className="border-t border-brand-accent/20 pt-6 mt-4 space-y-3">
                         <label className="block text-xs uppercase tracking-[0.15em] text-brand-text/70 font-medium leading-relaxed">
                           {t.form.partnerMainCourseLabel} <span className="text-brand-accent">*</span>
@@ -384,8 +435,8 @@ export default function DetailsRSVP() {
                     </p>
                   </div>
 
-                  <button type="submit" className="w-full border border-brand-accent text-brand-text hover:bg-brand-accent hover:text-white transition-all duration-300 py-4 uppercase tracking-[0.2em] text-xs mt-8 font-medium">
-                    {t.form.submit}
+                  <button type="submit" disabled={isSubmitting} className="w-full border border-brand-accent text-brand-text hover:bg-brand-accent hover:text-white transition-all duration-300 py-4 uppercase tracking-[0.2em] text-xs mt-8 font-medium disabled:opacity-60 disabled:cursor-not-allowed">
+                    {isSubmitting ? 'Stuur tans...' : t.form.submit}
                   </button>
                 </form>
                 </>
