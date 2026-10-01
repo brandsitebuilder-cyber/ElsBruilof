@@ -16,6 +16,14 @@ export default function Footer() {
         <p className="text-xs uppercase tracking-[0.3em] text-brand-text/50 font-light">
           {t.text}
         </p>
+        <a
+          href="https://brandaisolutions.co.za"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-8 text-[0.625rem] uppercase tracking-[0.25em] text-brand-text/35 hover:text-brand-accent transition-colors"
+        >
+          {language === 'af' ? 'Webtuiste deur' : 'Website by'} Brand AI Solutions
+        </a>
       </div>
     </footer>
   );
