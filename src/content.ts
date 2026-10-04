@@ -44,7 +44,7 @@ export const content = {
       attireTitle: "Slegs Swart",
       attireIntro: "Ons versoek vriendelik dat ALLE gaste in SWART aantrek.",
       attireList: [
-        "Vir mans: 'n swart pak.",
+        "Vir mans: 'n swart pak met 'n wit hemp.",
         "Vir dames: Swart formele aandrokke of verfynde swart skemerkelkiedrag.",
         "Ons moedig 'n tydlose, gesofistikeerde styl aan wat by die gees van die aand pas."
       ],
@@ -206,7 +206,7 @@ export const content = {
       attireTitle: "Slegs Swart",
       attireIntro: "Ons versoek vriendelik dat ALLE gaste in SWART aantrek.",
       attireList: [
-        "Vir mans: 'n swart pak.",
+        "Vir mans: 'n swart pak met 'n wit hemp.",
         "Vir dames: Swart formele aandrokke of verfynde swart skemerkelkiedrag.",
         "Ons moedig 'n tydlose, gesofistikeerde styl aan wat by die gees van die aand pas."
       ],
