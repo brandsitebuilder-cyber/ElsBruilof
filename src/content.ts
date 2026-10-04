@@ -53,6 +53,11 @@ export const content = {
       rsvpTitle: "RSVP",
       rsvpText: "Ons nooi julle graag om in ons vreugde te deel. Bevestig asseblief julle bywoning voor 15 September 2026.\nRSVP gerus via die vorm hieronder.",
       thankYou: "Dankie",
+      rsvpClosed: {
+        title: "RSVP Gesluit",
+        message: "RSVP's is nou gesluit. Kontak asseblief Ané vir enige vrae.",
+        phone: "060 997 1882"
+      },
       form: {
         name: "Volle Naam",
         partnerName: "Naam van metgesel",
@@ -215,6 +220,11 @@ export const content = {
       rsvpTitle: "RSVP",
       rsvpText: "Ons nooi julle graag om in ons vreugde te deel. Bevestig asseblief julle bywoning voor 15 September 2026.\nRSVP gerus via die vorm hieronder.",
       thankYou: "Dankie",
+      rsvpClosed: {
+        title: "RSVP Gesluit",
+        message: "RSVP's is nou gesluit. Kontak asseblief Ané vir enige vrae.",
+        phone: "060 997 1882"
+      },
       form: {
         name: "Volle Naam",
         partnerName: "Naam van metgesel",

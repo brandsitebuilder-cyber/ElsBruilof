@@ -8,6 +8,7 @@ var __filename = fileURLToPath(import.meta.url);
 var __dirname = path.dirname(__filename);
 var app = express();
 var PORT = Number(process.env.PORT) || 3e3;
+var RSVP_CLOSED = true;
 app.use(express.json());
 async function sendRsvpEmailNotification(data) {
   const recipients = (process.env.RSVP_NOTIFY_TO || "ane.havenga@gmail.com").split(",").map((r) => r.trim()).filter(Boolean);
@@ -195,6 +196,9 @@ function getSheetsClient() {
   return google.sheets({ version: "v4", auth });
 }
 app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
+  if (RSVP_CLOSED) {
+    return res.status(410).json({ error: "RSVP's is nou gesluit. Kontak asseblief An\xE9 vir enige vrae: 060 997 1882." });
+  }
   const { name, partnerName, cellphone, email, mainCourse, dietary, partnerMainCourse, partnerDietary, attendance } = req.body;
   if (!name || !cellphone) {
     return res.status(400).json({ error: "Naam en Selfoonnommer is verpligtend." });

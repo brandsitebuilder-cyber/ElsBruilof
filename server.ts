@@ -10,6 +10,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
+// RSVP is closed — reject all new submissions. Flip to false and redeploy to re-open.
+const RSVP_CLOSED = true;
+
 app.use(express.json());
 
 // Helper function to send RSVP notification email
@@ -253,6 +256,10 @@ function getSheetsClient() {
 
 // API routes
 app.post(["/api/rsvp", "/api/rsvp/"], async (req, res) => {
+  if (RSVP_CLOSED) {
+    return res.status(410).json({ error: "RSVP's is nou gesluit. Kontak asseblief Ané vir enige vrae: 060 997 1882." });
+  }
+
   const { name, partnerName, cellphone, email, mainCourse, dietary, partnerMainCourse, partnerDietary, attendance } = req.body;
 
   if (!name || !cellphone) {

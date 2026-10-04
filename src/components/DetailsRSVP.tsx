@@ -48,6 +48,9 @@ export default function DetailsRSVP() {
   const [copiedAddress, setCopiedAddress] = useState(false);
   const [formData, setFormData] = useState<RsvpForm>(emptyForm);
 
+  // RSVP is closed — guests must contact Ané directly
+  const rsvpClosed = true;
+
   const handleCopyAddress = () => {
     navigator.clipboard.writeText('Loch Lynne Wine Estate, Koeberg Rd, Durbanville, Cape Town, 7550');
     setCopiedAddress(true);
@@ -209,7 +212,22 @@ export default function DetailsRSVP() {
             className="lg:col-span-5"
           >
             <div className="bg-brand-fill p-8 md:p-14 border border-brand-accent/20">
-              {isSubmitted ? (
+              {rsvpClosed ? (
+                <div>
+                  <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
+                    {t.rsvpClosed.title}
+                  </h3>
+                  <div className="w-12 h-[1px] bg-brand-accent mb-10"></div>
+                  <div className="text-center py-10 px-6 border border-brand-accent/30 bg-brand-bg/50">
+                    <p className="text-brand-text/80 font-light tracking-wide text-sm md:text-base leading-relaxed mb-6">
+                      {t.rsvpClosed.message}
+                    </p>
+                    <a href="tel:0609971882" className="font-serif text-2xl md:text-3xl text-brand-accent">
+                      {t.rsvpClosed.phone}
+                    </a>
+                  </div>
+                </div>
+              ) : isSubmitted ? (
                 <div>
                   <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
                     {language === 'en' ? 'Thank You' : 'Baie Dankie'}

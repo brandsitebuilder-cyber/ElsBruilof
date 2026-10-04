@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLanguage } from '../LanguageContext';
 import { content } from '../content';
 import { images } from '../assets';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
+import { X } from 'lucide-react';
 
 export default function Hero() {
   const { language } = useLanguage();
   const t = content[language].hero;
+  const details = content[language].details;
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <section id="landing" className="relative h-screen flex items-end pb-24 md:items-center md:pb-0 justify-center overflow-hidden">
@@ -45,13 +48,56 @@ export default function Hero() {
             {t.venue}
           </p>
         )}
-        <a 
-          href="#details" 
+        <button 
+          onClick={() => setIsModalOpen(true)}
           className="inline-block border border-brand-accent text-white hover:bg-brand-accent hover:text-brand-bg transition-all duration-300 px-10 py-4 uppercase tracking-widest text-sm"
         >
           {t.rsvpBtn}
-        </a>
+        </button>
       </motion.div>
+
+      {/* RSVP Closed Popup */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            onClick={() => setIsModalOpen(false)}
+          >
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.25 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative bg-brand-bg border border-brand-accent/30 max-w-md w-full p-8 md:p-10 text-center"
+            >
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="absolute top-4 right-4 text-brand-text/50 hover:text-brand-text transition-colors"
+                aria-label="Maak toe"
+              >
+                <X size={20} />
+              </button>
+              <h3 className="font-[Pinyon_Script] text-4xl md:text-5xl text-brand-accent mb-4">
+                {details.rsvpClosed.title}
+              </h3>
+              <div className="w-12 h-[1px] bg-brand-accent mb-8 mx-auto"></div>
+              <p className="text-brand-text/80 font-light leading-relaxed tracking-wide text-sm md:text-base mb-8">
+                {details.rsvpClosed.message}
+              </p>
+              <a 
+                href="tel:0609971882"
+                className="inline-block border border-brand-accent text-brand-text hover:bg-brand-accent hover:text-white transition-all duration-300 px-8 py-3 uppercase tracking-widest text-sm font-medium"
+              >
+                {details.rsvpClosed.phone}
+              </a>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
