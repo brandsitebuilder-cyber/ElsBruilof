@@ -23,8 +23,8 @@ export default function CountdownTimer() {
 
   const t = labels[language] || labels.af;
 
-  // Target date: 21 November 2026, 15:30 SAST (UTC+2)
-  const targetDate = new Date('2026-11-21T15:30:00+02:00').getTime();
+  // Target date: 21 November 2026, 15:00 SAST (UTC+2) — guests seated by 15:30
+  const targetDate = new Date('2026-11-21T15:00:00+02:00').getTime();
 
   const [timeLeft, setTimeLeft] = useState({
     days: 0,

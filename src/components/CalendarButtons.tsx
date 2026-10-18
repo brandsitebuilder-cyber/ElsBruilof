@@ -21,8 +21,14 @@ export default function CalendarButtons() {
 
   const t = labels[language] || labels.af;
 
-  // Google Calendar URL
-  const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=An%C3%A9+%26+Lourens+Troue&dates=20261121T133000Z/20261121T220000Z&details=Saterdag,+21+November+2026+15:30+vir+16:00.+Formele+Elegansie+(Black+Tie).&location=Loch+Lynne+Wine+Estate,+Durbanville`;
+  // Event details — 15:00 vir 15:30 SAST (UTC+2), guests seated by 15:30
+  const eventTitle = 'Ané & Lourens Troue';
+  const eventLocation = 'Loch Lynne Wine Estate, Durbanville';
+  const eventDetails =
+    'Saterdag, 21 November 2026 — 15:00 vir 15:30. Wees asseblief teen 15:30 in u sitplekke. Kleredrag: Slegs Swart (streng formeel).';
+
+  // Google Calendar URL (13:00Z = 15:00 SAST)
+  const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventTitle)}&dates=20261121T130000Z/20261121T220000Z&details=${encodeURIComponent(eventDetails)}&location=${encodeURIComponent(eventLocation)}`;
 
   // Generate .ics file for download
   const handleDownloadIcs = () => {
@@ -30,11 +36,15 @@ export default function CalendarButtons() {
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
       'PRODID:-//Ane and Lourens Wedding//ZA',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
       'BEGIN:VEVENT',
-      'SUMMARY:Ané & Lourens Troue',
-      'DESCRIPTION:Saterdag, 21 November 2026 - 15:30 vir 16:00. Kleredrag: Formele Elegansie (Black Tie).',
-      'LOCATION:Loch Lynne Wine Estate, Durbanville',
-      'DTSTART:20261121T133000Z',
+      'UID:ane-lourens-troue-20261121@elsbruilof.co.za',
+      `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z`,
+      `SUMMARY:${eventTitle}`,
+      `DESCRIPTION:${eventDetails}`,
+      `LOCATION:${eventLocation}`,
+      'DTSTART:20261121T130000Z',
       'DTEND:20261121T220000Z',
       'END:VEVENT',
       'END:VCALENDAR'

@@ -32,10 +32,13 @@ export const content = {
       names: "Ané & Lourens",
       action: "gaan trou.",
       message: "Julle teenwoordigheid sal alles vir ons beteken wanneer ons voor mekaar ons geloftes aflê, ons geloof bely, en saam die toekoms instap.",
-      datetime: "SATERDAG, 21 NOVEMBER 2026 — 15:30 VIR 16:00",
+      datetime: "SATERDAG, 21 NOVEMBER 2026 — 15:00 VIR 15:30",
       venue: "LOCH LYNNE WYNLANDGOED, DURBANVILLE",
       attire: "KLEREDRAG: SLEGS SWART.",
       attireNote: "Sien \"Kleredrag & RSVP vir meer inligting\"",
+      dateLine: "SATERDAG, 21 NOVEMBER 2026",
+      timeLine: "15:00 VIR 15:30",
+      seatingNote: "Gaste word versoek om asseblief teen 15:30 in hul sitplekke te wees.",
       closing: ""
     },
     details: {
@@ -199,10 +202,13 @@ export const content = {
       names: "Ané & Lourens",
       action: "gaan trou.",
       message: "Julle teenwoordigheid sal alles vir ons beteken wanneer ons voor mekaar ons geloftes aflê, ons geloof bely, en saam die toekoms instap.",
-      datetime: "SATERDAG, 21 NOVEMBER 2026 — 15:30 VIR 16:00",
+      datetime: "SATERDAG, 21 NOVEMBER 2026 — 15:00 VIR 15:30",
       venue: "LOCH LYNNE WYNLANDGOED, DURBANVILLE",
       attire: "KLEREDRAG: SLEGS SWART.",
       attireNote: "Sien \"Kleredrag & RSVP vir meer inligting\"",
+      dateLine: "SATERDAG, 21 NOVEMBER 2026",
+      timeLine: "15:00 VIR 15:30",
+      seatingNote: "Gaste word versoek om asseblief teen 15:30 in hul sitplekke te wees.",
       closing: ""
     },
     details: {

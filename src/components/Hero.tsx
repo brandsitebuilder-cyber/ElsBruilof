@@ -9,6 +9,7 @@ export default function Hero() {
   const { language } = useLanguage();
   const t = content[language].hero;
   const details = content[language].details;
+  const invitation = content[language].invitation;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -88,6 +89,39 @@ export default function Hero() {
               <p className="text-brand-text/80 font-light leading-relaxed tracking-wide text-sm md:text-base mb-8">
                 {details.rsvpClosed.message}
               </p>
+
+              {/* Event details */}
+              <ul className="space-y-3 text-left border-t border-brand-accent/20 pt-7 mb-8">
+                <li className="flex items-start gap-3">
+                  <span className="text-brand-accent flex-shrink-0 leading-5">✦</span>
+                  <span className="text-[11px] md:text-xs uppercase tracking-[0.2em] font-light text-brand-text/80">
+                    {invitation.dateLine}
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-brand-accent flex-shrink-0 leading-5">✦</span>
+                  <span>
+                    <span className="block text-[11px] md:text-xs uppercase tracking-[0.2em] font-light text-brand-text/80">
+                      {invitation.timeLine}
+                    </span>
+                    <span className="block text-[10px] md:text-[11px] italic tracking-wider font-light text-brand-accent/90 mt-1">
+                      {invitation.seatingNote}
+                    </span>
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-brand-accent flex-shrink-0 leading-5">✦</span>
+                  <span className="text-[11px] md:text-xs uppercase tracking-[0.2em] font-light text-brand-text/80">
+                    {invitation.venue}
+                  </span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-brand-accent flex-shrink-0 leading-5">✦</span>
+                  <span className="text-[11px] md:text-xs uppercase tracking-[0.2em] font-light text-brand-text/80">
+                    KLEREDRAG: SLEGS <strong className="font-bold">SWART</strong>
+                  </span>
+                </li>
+              </ul>
               <a 
                 href="tel:0609971882"
                 className="inline-block border border-brand-accent text-brand-text hover:bg-brand-accent hover:text-white transition-all duration-300 px-8 py-3 uppercase tracking-widest text-sm font-medium"
