@@ -39,6 +39,10 @@ export const content = {
       dateLine: "SATERDAG, 21 NOVEMBER 2026",
       timeLine: "15:00 VIR 15:30",
       seatingNote: "Gaste word versoek om asseblief teen 15:30 in hul sitplekke te wees.",
+      attireBullets: [
+        "Vir mans: 'n swart pak met 'n wit hemp.",
+        "Vir dames: Swart formele aandrokke of verfynde swart skemerkelkiedrag."
+      ],
       closing: ""
     },
     details: {
@@ -209,6 +213,10 @@ export const content = {
       dateLine: "SATERDAG, 21 NOVEMBER 2026",
       timeLine: "15:00 VIR 15:30",
       seatingNote: "Gaste word versoek om asseblief teen 15:30 in hul sitplekke te wees.",
+      attireBullets: [
+        "Vir mans: 'n swart pak met 'n wit hemp.",
+        "Vir dames: Swart formele aandrokke of verfynde swart skemerkelkiedrag."
+      ],
       closing: ""
     },
     details: {

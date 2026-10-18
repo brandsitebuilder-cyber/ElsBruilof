@@ -5,6 +5,13 @@ import { images } from '../assets';
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
 
+// Bold the word "swart" (case-insensitive) for dress-code emphasis
+function highlightSwart(text: string) {
+  return text.split(/(swart)/gi).map((part, i) =>
+    /swart/i.test(part) ? <strong key={i} className="font-bold">{part}</strong> : part
+  );
+}
+
 export default function Hero() {
   const { language } = useLanguage();
   const t = content[language].hero;
@@ -73,7 +80,7 @@ export default function Hero() {
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.25 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative bg-brand-bg border border-brand-accent/30 max-w-md w-full p-8 md:p-10 text-center"
+              className="relative bg-brand-bg border border-brand-accent/30 max-w-md w-full max-h-[92vh] overflow-y-auto p-8 md:p-10 text-center"
             >
               <button 
                 onClick={() => setIsModalOpen(false)}
@@ -120,6 +127,17 @@ export default function Hero() {
                   <span className="text-[11px] md:text-xs uppercase tracking-[0.2em] font-light text-brand-text/80">
                     KLEREDRAG: SLEGS <strong className="font-bold">SWART</strong>
                   </span>
+                </li>
+                <li className="flex items-start gap-3 pb-1">
+                  <span className="text-brand-accent flex-shrink-0 leading-5">✦</span>
+                  <ul className="space-y-2">
+                    {invitation.attireBullets.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2 text-[10px] md:text-[11px] tracking-wide font-light text-brand-text/70 leading-relaxed">
+                        <span className="text-brand-accent/70 flex-shrink-0">–</span>
+                        <span>{highlightSwart(item)}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </li>
               </ul>
               <a 
